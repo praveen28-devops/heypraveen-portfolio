@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <title>Praveen A - Cloud and DevOps Engineer Portfolio</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Praveen A - Aspiring DevOps Engineer with expertise in AWS, Docker, Kubernetes, and CI/CD pipelines. View my portfolio showcasing cloud-native solutions and automation projects." />
+    <meta name="keywords" content="DevOps, Cloud Computing, AWS, Docker, Kubernetes, CI/CD, Terraform, Infrastructure Automation" />
+    <meta name="author" content="Praveen A" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Praveen A - Cloud andDevOps Engineer Portfolio" />
+    <meta property="og:description" content="Aspiring DevOps Engineer with expertise in cloud technologies and automation" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://praveen-portfolio.com" />
+    <meta property="og:image" content="/profile-photo.png" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Praveen A - Cloud and DevOps Engineer Portfolio" />
+    <meta name="twitter:description" content="Aspiring DevOps Engineer with expertise in cloud technologies and automation" />
+    <meta name="twitter:image" content="/profile-photo.png" />
+
+    <!-- Mobile Optimizations -->
+    <meta name="theme-color" content="#1e3a8a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Praveen Portfolio" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/src/assets/profile-photo.png" as="image" />
+    <link rel="preload" href="/src/assets/hero-bg.jpg" as="image" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <!-- Performance Optimizations -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Mobile-specific scripts for better performance -->
+    <script>
+      // Prevent zoom on double tap (iOS)
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', function (event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+          event.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, false);
+
+      // Add touch-action CSS for better touch handling
+      document.addEventListener('DOMContentLoaded', function() {
+        const style = document.createElement('style');
+        style.textContent = `
+          * {
+            touch-action: manipulation;
+          }
+          button, a {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+          }
+        `;
+        document.head.appendChild(style);
+      });
+    </script>
+  </body>
+</html>
