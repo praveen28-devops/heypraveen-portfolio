@@ -225,14 +225,14 @@ const ProfessionalSummary = () => {
       <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 relative z-10">
         {/* Enhanced Section Header */}
         <div className={`text-center mb-5 sm:mb-6 md:mb-8 lg:mb-12 transition-all duration-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3 md:mb-4 lg:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
+          <h2 className="text-design-3xl sm:text-design-4xl md:text-design-5xl font-design-bold mb-2 sm:mb-3 md:mb-4 lg:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-design-tight tracking-design-tight">
             Professional Summary
           </h2>
           <div 
             className="w-10 sm:w-12 md:w-16 lg:w-20 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto"
             style={{ borderRadius: '2px' }}
           />
-          <p className="text-sm sm:text-base md:text-lg text-slate-400 mt-2 sm:mt-3 md:mt-4 max-w-3xl mx-auto">
+          <p className="text-design-sm sm:text-design-base md:text-design-lg text-slate-400 mt-2 sm:mt-3 md:mt-4 max-w-3xl mx-auto leading-design-relaxed">
             A dedicated Cloud & DevOps professional ready to contribute to innovative projects
           </p>
         </div>
@@ -244,16 +244,16 @@ const ProfessionalSummary = () => {
             style={{ borderRadius: '24px' }}
           >
             <div className="text-center mb-4 sm:mb-6 md:mb-8">
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-blue-400 mb-2 sm:mb-3 md:mb-4">
+              <h3 className="text-design-lg sm:text-design-xl md:text-design-2xl lg:text-design-3xl font-design-bold text-blue-400 mb-2 sm:mb-3 md:mb-4 leading-design-tight">
                 Why Choose Me?
               </h3>
-              <p className="text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed max-w-4xl mx-auto">
-  I am a <strong className="text-white">B.Tech Information Technology student</strong> passionate about 
-  <strong className="text-white"> Cloud Computing and DevOps</strong>. My skills include 
-  <strong className="text-white"> AWS services, CI/CD pipelines, infrastructure automation, and modern development practices</strong>. 
+              <p className="text-design-sm sm:text-design-base md:text-design-lg text-slate-300 leading-design-relaxed max-w-4xl mx-auto">
+  I am a <strong className="text-white font-design-semibold">B.Tech Information Technology student</strong> passionate about 
+  <strong className="text-white font-design-semibold"> Cloud Computing and DevOps</strong>. My skills include 
+  <strong className="text-white font-design-semibold"> AWS services, CI/CD pipelines, infrastructure automation, and modern development practices</strong>. 
   With a strong commitment to continuous learning and problem-solving, I am 
-  <strong className="text-cyan-400"> available for immediate joining</strong> and eager to 
-  <strong className="text-white"> contribute to impactful projects</strong> while advancing my expertise in the DevOps field.
+  <strong className="text-cyan-400 font-design-semibold"> available for immediate joining</strong> and eager to 
+  <strong className="text-white font-design-semibold"> contribute to impactful projects</strong> while advancing my expertise in the DevOps field.
 </p>
 
             </div>
@@ -277,10 +277,10 @@ const ProfessionalSummary = () => {
                   >
                     <highlight.icon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
                   </div>
-                  <h4 className="text-sm sm:text-base md:text-lg font-semibold text-blue-400 mb-1 sm:mb-2">
+                  <h4 className="text-design-sm sm:text-design-base md:text-design-lg font-design-semibold text-blue-400 mb-1 sm:mb-2 leading-design-tight">
                     {highlight.title}
                   </h4>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  <p className="text-design-xs sm:text-design-sm text-slate-300 leading-design-relaxed">
                     {highlight.description}
                   </p>
                 </div>
@@ -289,7 +289,7 @@ const ProfessionalSummary = () => {
 
             {/* Recruiter-Focused Highlights */}
             <div className="border-t border-slate-600/30 pt-4 sm:pt-6 md:pt-8">
-              <h4 className="text-base sm:text-lg md:text-xl font-semibold text-blue-400 mb-3 sm:mb-4 md:mb-6 text-center">
+              <h4 className="text-design-base sm:text-design-lg md:text-design-xl font-design-semibold text-blue-400 mb-3 sm:mb-4 md:mb-6 text-center leading-design-tight">
                 Key Advantages for Employers
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
@@ -311,10 +311,10 @@ const ProfessionalSummary = () => {
                       <highlight.icon className="h-3 w-3 sm:h-4 sm:w-4" />
                     </div>
                     <div>
-                      <h5 className="text-xs sm:text-sm font-medium text-blue-400">
+                      <h5 className="text-design-xs sm:text-design-sm font-design-medium text-blue-400 leading-design-tight">
                         {highlight.title}
                       </h5>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-design-xs text-slate-400 leading-design-snug">
                         {highlight.description}
                       </p>
                     </div>
@@ -331,26 +331,29 @@ const ProfessionalSummary = () => {
             className="bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 p-4 sm:p-6 md:p-8"
             style={{ borderRadius: '24px' }}
           >
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-400 mb-2 sm:mb-3 md:mb-4">
+            <h3 className="text-design-lg sm:text-design-xl md:text-design-2xl font-design-bold text-blue-400 mb-2 sm:mb-3 md:mb-4 leading-design-tight">
               Ready to Contribute to Your Team
             </h3>
-            <p className="text-sm sm:text-base md:text-lg text-slate-300 mb-4 sm:mb-6 max-w-2xl mx-auto">
+            <p className="text-design-sm sm:text-design-base md:text-design-lg text-slate-300 mb-4 sm:mb-6 max-w-2xl mx-auto leading-design-relaxed">
               I am actively seeking opportunities to apply my skills in cloud computing and DevOps. 
               Let's discuss how I can add value to your organization.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <a
                 href="mailto:praveen.dev.cloud@gmail.com"
-                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-blue-500 hover:to-cyan-500 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-blue-500 hover:to-cyan-500 text-white font-design-semibold px-6 sm:px-8 py-2.5 sm:py-3 text-design-sm sm:text-design-base shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus-ring touch-target"
                 style={{ borderRadius: '25px' }}
+                aria-label="Send email to Praveen A"
               >
                 Contact Me
               </a>
               <a
                 href="/Praveen A-Resume.pdf"
                 target="_blank"
-                className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-slate-900 font-semibold px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base transition-all duration-300 transform hover:scale-105"
+                rel="noopener noreferrer"
+                className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-slate-900 font-design-semibold px-6 sm:px-8 py-2.5 sm:py-3 text-design-sm sm:text-design-base transition-all duration-300 transform hover:scale-105 focus-ring touch-target"
                 style={{ borderRadius: '25px' }}
+                aria-label="Download Praveen A's resume (opens in new tab)"
               >
                 View Resume
               </a>

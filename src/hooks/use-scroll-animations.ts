@@ -192,6 +192,45 @@ export const useStaggeredAnimation = (childSelector: string = '[data-stagger]') 
   };
 };
 
+// Enhanced parallax hook for multilayer effects
+export const useMultilayerParallax = () => {
+  const { isMobile } = useMobile();
+
+  useEffect(() => {
+    // Skip parallax on mobile for performance
+    if (isMobile) return;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const elements = document.querySelectorAll('[data-parallax-speed]');
+      
+      elements.forEach((element) => {
+        const speed = parseFloat(element.getAttribute('data-parallax-speed') || '0');
+        const yPos = scrollY * speed;
+        (element as HTMLElement).style.transform = `translateY(${yPos}px)`;
+      });
+    };
+
+    // Use requestAnimationFrame for smooth performance
+    let ticking = false;
+    const optimizedScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', optimizedScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', optimizedScroll);
+    };
+  }, [isMobile]);
+};
+
 // Utility function for throttling
 function throttle<T extends (...args: any[]) => any>(
   func: T,

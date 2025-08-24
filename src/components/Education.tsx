@@ -206,7 +206,7 @@ const Education = () => {
         {/* Section Header */}
         <div 
           ref={headerAnimation.ref}
-          className={`text-center mb-8 sm:mb-12 md:mb-16 transition-all duration-1000 ${
+          className={`text-center mb-6 sm:mb-8 md:mb-10 transition-all duration-1000 ${
             headerAnimation.isVisible 
               ? isMobile 
                 ? 'animate-mobile-scroll-reveal opacity-100' 
@@ -221,10 +221,10 @@ const Education = () => {
         </div>
 
         {/* Education Section */}
-        <div className="mb-12 sm:mb-16 md:mb-20">
+        <div className="mb-8 sm:mb-10 md:mb-12">
           <h3 
             ref={educationSectionAnimation.ref}
-            className={`text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8 text-white transition-all duration-1000 delay-300 ${
+            className={`text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6 text-white transition-all duration-1000 delay-300 ${
               educationSectionAnimation.isVisible 
                 ? isMobile 
                   ? 'animate-mobile-slide-left opacity-100' 
@@ -292,10 +292,10 @@ const Education = () => {
         </div>
 
         {/* Certifications Section */}
-        <div>
+        <div className="min-h-fit">
           <h3 
             ref={certificationAnimation.ref}
-            className={`text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8 text-white transition-all duration-1000 delay-700 ${
+            className={`text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6 text-white transition-all duration-1000 delay-700 ${
               certificationAnimation.isVisible 
                 ? isMobile 
                   ? 'animate-mobile-slide-right opacity-100' 

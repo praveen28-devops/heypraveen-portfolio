@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MapPin, Mail, Phone, Linkedin, Github, Download, ChevronDown, Award, Target, TrendingUp } from 'lucide-react';
+import { MapPin, Mail, Phone, Linkedin, Github, Download, ChevronDown, Award, Target, TrendingUp, Code, Cloud, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import FloatingParticles from './FloatingParticles';
 import profilePhoto from '../assets/profile-photo.png'
@@ -27,11 +27,16 @@ const Hero = () => {
   }, []);
 
   const contactItems = [
-    { icon: MapPin, text: 'Namakkal, Tamil Nadu, India', href: 'https://maps.app.goo.gl/TmHd9zgFyMdSK8Kc7' , color: "text-red-500"},
-    { icon: Mail, text: 'praveen.dev.cloud@gmail.com', href: 'mailto:praveen.dev.cloud@gmail.com' },
-    { icon: Phone, text: '+91 6382832865', href: 'tel:+916382832865' },
-    { icon: Linkedin, text: 'LinkedIn', href: 'https://www.linkedin.com/in/praveen-a-devops' },
-    // GitHub link removed per request
+    { icon: MapPin, text: 'Namakkal, Tamil Nadu, India', href: 'https://maps.app.goo.gl/TmHd9zgFyMdSK8Kc7', color: "text-red-400"},
+    { icon: Mail, text: 'praveen.dev.cloud@gmail.com', href: 'mailto:praveen.dev.cloud@gmail.com', color: "text-blue-400" },
+    { icon: Phone, text: '+91 6382832865', href: 'tel:+916382832865', color: "text-green-400" },
+    { icon: Linkedin, text: 'LinkedIn', href: 'https://www.linkedin.com/in/praveen-a-devops', color: "text-cyan-400" },
+  ];
+
+  const floatingCards = [
+    { icon: Code, title: 'DevOps', description: 'CI/CD & Automation', color: 'from-blue-500 to-cyan-500' },
+    { icon: Cloud, title: 'Cloud', description: 'AWS & Azure Expert', color: 'from-purple-500 to-pink-500' },
+    { icon: Zap, title: 'Performance', description: 'Optimization Focus', color: 'from-yellow-500 to-orange-500' },
   ];
 
   const scrollToNextSection = () => {
@@ -44,7 +49,7 @@ const Hero = () => {
   return (
     <section 
       id="hero" 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-20 bg-slate-900"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
     >
       {/* Optimized Particle System for all devices */}
       <FloatingParticles 
@@ -85,18 +90,18 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Enhanced Name and Title with HR-Focused Messaging */}
+          {/* Enhanced Name and Title with Design System Typography */}
           <div className={`mb-3 sm:mb-4 md:mb-6 lg:mb-8 transition-all duration-1400 delay-300 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
-            <h1 className="text-[clamp(2rem,8vw,3.5rem)] sm:text-[clamp(2.5rem,7vw,4.5rem)] md:text-[clamp(3rem,7vw,5.5rem)] lg:text-7xl xl:text-8xl font-bold mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-glow-blue leading-tight">
-              <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-300 to-blue-600 animate-pulse">
+            <h1 className="text-design-4xl sm:text-design-5xl font-design-black mb-2 sm:mb-3 md:mb-4 lg:mb-6 leading-design-tight tracking-design-tight">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-600 drop-shadow-2xl">
                 Praveen A
               </span>
             </h1>
-            <h2 className="text-[clamp(1.125rem,4vw,1.5rem)] sm:text-[clamp(1.25rem,4vw,2rem)] md:text-[clamp(1.5rem,4vw,2.5rem)] lg:text-3xl xl:text-4xl font-semibold text-white mb-2 sm:mb-3 md:mb-4 text-glow leading-tight">
+            <h2 className="text-design-xl sm:text-design-2xl md:text-design-3xl font-design-bold text-white mb-2 sm:mb-3 md:mb-4 leading-design-tight tracking-design-wide">
               Cloud & DevOps Engineer
             </h2>
-            <p className="text-[clamp(0.875rem,3.5vw,1rem)] sm:text-[clamp(1rem,3.5vw,1.125rem)] md:text-lg lg:text-xl xl:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 md:px-6">
-              B.Tech Information Technology Graduate | DevOps Enthusiast | Automation Specialist | Ready for Immediate Joining
+            <p className="text-design-sm sm:text-design-base md:text-design-lg text-slate-300 max-w-4xl mx-auto leading-design-relaxed px-2 sm:px-4 md:px-6">
+              B.Tech Information Technology Graduate • DevOps Enthusiast • Automation Specialist • <span className="text-green-400 font-design-semibold">Ready for Immediate Joining</span>
             </p>
           </div>
 
@@ -150,20 +155,39 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Enhanced Key Highlights with Dark Slate Theme */}
-          <div className={`transition-all duration-1400 delay-900 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
+          {/* Floating Cards Section */}
+          <div className={`mb-6 sm:mb-8 transition-all duration-1400 delay-800 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto px-4">
+              {floatingCards.map((card, index) => (
+                <div
+                  key={index}
+                  className={`glass-card p-4 sm:p-6 text-center transition-all duration-500 hover:scale-105`}
+                  style={{ animationDelay: `${index * 200}ms` }}
+                >
+                  <div className={`inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${card.color} rounded-xl mb-3 sm:mb-4 shadow-lg`}>
+                    <card.icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+                  </div>
+                  <h3 className="text-design-base sm:text-design-lg font-design-bold text-white mb-1 sm:mb-2">{card.title}</h3>
+                  <p className="text-design-xs sm:text-design-sm text-slate-400 leading-design-relaxed">{card.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Enhanced Key Highlights */}
+          <div className={`transition-all duration-1400 delay-1000 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
             <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 max-w-5xl mx-auto">
-              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50">
+              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50 hover:border-yellow-400/50 transition-all duration-300">
                 <Award className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400" />
-                <span className="text-xs sm:text-sm md:text-base font-medium">AWS Certified</span>
+                <span className="text-design-xs sm:text-design-sm md:text-design-base font-design-medium">AWS Certified</span>
               </div>
-              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50">
+              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50 hover:border-green-400/50 transition-all duration-300">
                 <Target className="h-4 w-4 sm:h-5 sm:w-5 text-green-400" />
-                <span className="text-xs sm:text-sm md:text-base font-medium">Ready to Join</span>
+                <span className="text-design-xs sm:text-design-sm md:text-design-base font-design-medium">Ready to Join</span>
               </div>
-              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50">
+              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50 hover:border-blue-400/50 transition-all duration-300">
                 <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400" />
-                <span className="text-xs sm:text-sm md:text-base font-medium">Fast Learner</span>
+                <span className="text-design-xs sm:text-design-sm md:text-design-base font-design-medium">Fast Learner</span>
               </div>
             </div>
           </div>

@@ -157,11 +157,11 @@ const TechnicalSkills = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className={`text-center mb-8 sm:mb-12 md:mb-16 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-[clamp(1.75rem,6vw,3rem)] sm:text-[clamp(2rem,6vw,3.5rem)] md:text-[clamp(3rem,6vw,4rem)] lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
+          <h2 className="text-design-3xl sm:text-design-4xl md:text-design-5xl font-design-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-design-tight tracking-design-tight">
             Technical Skills
           </h2>
           <div className="w-12 sm:w-16 md:w-20 lg:w-24 h-0.5 sm:h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto rounded-full"></div>
-          <p className="text-sm sm:text-base md:text-lg text-slate-400 mt-4 sm:mt-6 max-w-3xl mx-auto">
+          <p className="text-design-sm sm:text-design-base md:text-design-lg text-slate-400 mt-4 sm:mt-6 max-w-3xl mx-auto leading-design-relaxed">
             Comprehensive expertise across modern DevOps and Cloud technologies
           </p>
         </div>
@@ -179,14 +179,14 @@ const TechnicalSkills = () => {
               <div className={`inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gradient-to-br ${category.color} rounded-lg sm:rounded-xl mb-3 sm:mb-4 shadow-lg`}>
                 <category.icon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-white" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-white leading-tight">
+              <h3 className="text-design-lg sm:text-design-xl font-design-semibold mb-3 sm:mb-4 text-white leading-design-tight">
                 {category.title}
               </h3>
               <div className="space-y-1.5 sm:space-y-2">
                 {category.skills.map((skill, skillIndex) => (
                   <div
                     key={skillIndex}
-                    className="flex items-center space-x-2 text-xs sm:text-sm text-slate-400 hover:text-cyan-400 transition-colors duration-300"
+                    className="flex items-center space-x-2 text-design-xs sm:text-design-sm text-slate-400 hover:text-cyan-400 transition-colors duration-300 leading-design-normal"
                   >
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-400 rounded-full"></div>
                     <span>{skill}</span>
@@ -200,13 +200,13 @@ const TechnicalSkills = () => {
         {/* Proficiency Levels - Mobile Optimized */}
         <div className={`transition-all duration-1000 delay-1000 ${isVisible ? 'scale-100 opacity-100' : 'opacity-0 scale-95'}`}>
           <div className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-xl">
-            <h3 className="text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8 text-white">Core Competencies</h3>
+            <h3 className="text-design-xl sm:text-design-2xl font-design-bold text-center mb-6 sm:mb-8 text-white leading-design-tight">Core Competencies</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {proficiencyLevels.map((skill, index) => (
                 <div key={index} className="space-y-2 sm:space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm font-medium text-white">{skill.name}</span>
-                    <span className="text-xs sm:text-sm text-cyan-400">{skill.level}%</span>
+                    <span className="text-design-xs sm:text-design-sm font-design-medium text-white">{skill.name}</span>
+                    <span className="text-design-xs sm:text-design-sm text-cyan-400">{skill.level}%</span>
                   </div>
                   <div className="w-full bg-slate-700/50 rounded-full h-1.5 sm:h-2">
                     <div
@@ -217,7 +217,7 @@ const TechnicalSkills = () => {
                       }}
                     ></div>
                   </div>
-                  <span className="text-xs text-slate-500">{skill.category}</span>
+                  <span className="text-design-xs text-slate-500 leading-design-normal">{skill.category}</span>
                 </div>
               ))}
             </div>
@@ -229,7 +229,7 @@ const TechnicalSkills = () => {
           <div className="text-center">
             <div className="inline-flex items-center space-x-2 sm:space-x-4 bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 px-4 sm:px-6 py-2 sm:py-3 rounded-full">
               <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-cyan-400" />
-              <span className="text-xs sm:text-sm font-medium text-white">
+              <span className="text-design-xs sm:text-design-sm font-design-medium text-white leading-design-normal">
                 AWS Certified (On Progress) • Azure Certified (On Progress) •
               </span>
               <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-cyan-400" />
