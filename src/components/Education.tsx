@@ -33,7 +33,6 @@ const GeometricShapes = ({ shapeCount = 10 }) => {
   );
 };
 
-
 const FloatingParticles = ({ particleCount = 30, colors = ['#3b82f6', '#8b5cf6', '#06b6d4'] }) => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -61,6 +60,9 @@ const FloatingParticles = ({ particleCount = 30, colors = ['#3b82f6', '#8b5cf6',
     </div>
   );
 };
+
+
+
 
 const Education = () => {
   const [flippedCards, setFlippedCards] = useState([]);
@@ -184,7 +186,7 @@ const Education = () => {
     <section 
       ref={sectionTransition.ref}
       id="education" 
-      className={`py-12 sm:py-16 md:py-20 relative overflow-hidden bg-slate-900 transition-all duration-1000 ${
+      className={`py-12 sm:py-16 md:py-20 relative overflow-hidden bg-black transition-all duration-1000 ${
         sectionTransition.isActive ? 'section-active' : ''
       }`}
     >

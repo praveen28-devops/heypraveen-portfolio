@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { 
   ExternalLink, 
   Github, 
@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Star
 } from 'lucide-react';
+import { useMobile } from '../hooks/use-mobile';
 
 // Mock Button component for demonstration
 const Button = ({ children, variant, size, className, onClick, ...props }) => (
@@ -44,21 +45,24 @@ const FloatingParticles = ({ particleCount, className }) => (
   </div>
 );
 
-// Minimal GeometricShapes component
-const GeometricShapes = ({ shapeCount }) => (
+// GeometricShapes component
+const GeometricShapes = ({ shapeCount = 10 }) => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
     {[...Array(shapeCount)].map((_, i) => (
       <div
         key={i}
-        className={`absolute opacity-20 ${i % 2 === 0 ? 'rounded-full' : 'rotate-45'}`}
+        className={`absolute opacity-10 ${
+          i % 3 === 0 ? 'w-8 h-8' : i % 3 === 1 ? 'w-6 h-6' : 'w-4 h-4'
+        } ${
+          i % 4 === 0 ? 'bg-blue-500' : i % 4 === 1 ? 'bg-purple-500' : i % 4 === 2 ? 'bg-cyan-500' : 'bg-green-500'
+        } ${
+          i % 2 === 0 ? 'rounded-full' : 'rotate-45'
+        }`}
         style={{
-          width: `${4 + Math.random() * 8}px`,
-          height: `${4 + Math.random() * 8}px`,
-          backgroundColor: i % 4 === 0 ? '#3b82f6' : i % 4 === 1 ? '#8b5cf6' : i % 4 === 2 ? '#06b6d4' : '#10b981',
           left: `${Math.random() * 100}%`,
           top: `${Math.random() * 100}%`,
-          animation: `drift ${15 + Math.random() * 25}s ease-in-out infinite`,
-          animationDelay: `${Math.random() * 8}s`
+          animationDuration: `${4 + Math.random() * 6}s`,
+          animationDelay: `${Math.random() * 3}s`
         }}
       />
     ))}
@@ -79,15 +83,10 @@ declare global {
 const Projects = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [activeProject, setActiveProject] = useState<number | null>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  // Enhanced mobile detection with breakpoint optimization
-  const checkMobile = useCallback(() => {
-    const width = window.innerWidth;
-    setIsMobile(width < 768);
-  }, []);
+  const [activeProject, setActiveProject] = useState(null);
+  const { isMobile } = useMobile();
+  const sectionRef = useRef(null);
+  
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -96,38 +95,17 @@ const Projects = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.2, rootMargin: '50px' }
+      { threshold: 0.1, rootMargin: '100px' }
     );
 
-    const element = document.getElementById('projects');
-    if (element) {
-      observer.observe(element);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
     }
 
-    // Enhanced scroll progress tracking
-    const handleScroll = () => {
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const elementTop = rect.top + scrollTop;
-        const elementHeight = rect.height;
-        const progress = Math.min(Math.max((scrollTop - elementTop + window.innerHeight) / elementHeight, 0), 1);
-        setScrollProgress(progress);
-      }
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    window.addEventListener('scroll', handleScroll);
-
     return () => {
-      if (element) {
-        observer.unobserve(element);
-      }
-      window.removeEventListener('resize', checkMobile);
-      window.removeEventListener('scroll', handleScroll);
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
-  }, [checkMobile]);
+  }, []); 
 
   const projects = [
     {
@@ -207,7 +185,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="py-8 sm:py-12 md:py-16 relative overflow-hidden bg-slate-900 min-h-screen">
+    <section id="projects" className="py-8 sm:py-12 md:py-16 relative overflow-hidden bg-black min-h-screen">
       {/* Minimal Background Effects */}
       {!isMobile && <GeometricShapes shapeCount={6} />}
       <FloatingParticles 
@@ -218,82 +196,16 @@ const Projects = () => {
       {/* ENHANCED: Perfect Circular Background Elements with Modern Blur Effects */}
       <div className="absolute inset-0 opacity-10">
         {/* Primary Blue Orb - Perfect Circle with Modern Blur */}
-        <div 
-          className="absolute top-8 sm:top-16 left-8 sm:left-16 bg-blue-500/30 animate-pulse"
-          style={{
-            width: 'clamp(128px, 20vw, 256px)',
-            height: 'clamp(128px, 20vw, 256px)',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.4), rgba(59, 130, 246, 0.1))',
-            filter: 'blur(40px)',
-            transform: 'translateZ(0)', // Hardware acceleration
-            backfaceVisibility: 'hidden',
-          }}
-        />
+        <div className="absolute top-20 left-20 w-80 h-80 bg-blue-500/30 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }}></div>
         
-        {/* Secondary Purple Orb - Perfect Circle */}
-        <div 
-          className="absolute bottom-8 sm:bottom-16 right-8 sm:right-16 bg-purple-500/25 animate-pulse"
-          style={{
-            width: 'clamp(112px, 18vw, 224px)',
-            height: 'clamp(112px, 18vw, 224px)',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at 70% 70%, rgba(147, 51, 234, 0.35), rgba(147, 51, 234, 0.08))',
-            filter: 'blur(35px)',
-            animationDelay: '3s',
-            transform: 'translateZ(0)',
-            backfaceVisibility: 'hidden',
-          }}
-        />
+        {/* Secondary Cyan Orb - Perfect Circle with Modern Blur */}
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }}></div>
         
-        {/* Center Accent Orb - Perfect Circle */}
-        <div 
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-cyan-500/20 animate-pulse"
-          style={{
-            width: 'clamp(96px, 15vw, 192px)',
-            height: 'clamp(96px, 15vw, 192px)',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.3), rgba(34, 211, 238, 0.05))',
-            filter: 'blur(32px)',
-            animationDelay: '1.5s',
-            transform: 'translate(-50%, -50%) translateZ(0)',
-            backfaceVisibility: 'hidden',
-          }}
-        />
-
-        {/* Additional Floating Orbs for Enhanced Depth */}
-        <div 
-          className="absolute top-1/4 right-1/4 bg-emerald-500/15 animate-pulse"
-          style={{
-            width: 'clamp(64px, 12vw, 128px)',
-            height: 'clamp(64px, 12vw, 128px)',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.25), rgba(16, 185, 129, 0.05))',
-            filter: 'blur(28px)',
-            animationDelay: '2.5s',
-            animationDuration: '4s',
-            transform: 'translateZ(0)',
-            backfaceVisibility: 'hidden',
-          }}
-        />
-        
-        <div 
-          className="absolute bottom-1/4 left-1/4 bg-rose-500/15 animate-pulse"
-          style={{
-            width: 'clamp(80px, 14vw, 160px)',
-            height: 'clamp(80px, 14vw, 160px)',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at 60% 40%, rgba(244, 63, 94, 0.25), rgba(244, 63, 94, 0.05))',
-            filter: 'blur(30px)',
-            animationDelay: '4s',
-            animationDuration: '5s',
-            transform: 'translateZ(0)',
-            backfaceVisibility: 'hidden',
-          }}
-        />
+        {/* Tertiary Purple Orb - Perfect Circle with Modern Blur */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }}></div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className={`text-center mb-6 sm:mb-8 md:mb-12 transition-all duration-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight">

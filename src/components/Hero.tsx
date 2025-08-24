@@ -49,7 +49,7 @@ const Hero = () => {
   return (
     <section 
       id="hero" 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-20 bg-black"
     >
       {/* Optimized Particle System for all devices */}
       <FloatingParticles 
