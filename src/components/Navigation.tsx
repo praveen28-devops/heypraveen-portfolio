@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Home, User, Code, GraduationCap, FolderOpen, Users } from 'lucide-react';
+import ResumeActions from './ResumeActions';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -132,9 +133,9 @@ const Navigation = () => {
               ))}
             </div>
             
-            {/* Mobile menu footer */}
+            {/* Mobile menu footer with resume actions */}
             <div className="px-4 py-4 border-t border-slate-700/50">
-              <div className="text-center">
+              <div className="text-center mb-3">
                 <p className="text-sm text-slate-400">
                   Available for opportunities
                 </p>
@@ -142,6 +143,9 @@ const Navigation = () => {
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-xs text-slate-500">Open to work</span>
                 </div>
+              </div>
+              <div className="flex justify-center">
+                <ResumeActions variant="compact" />
               </div>
             </div>
           </div>

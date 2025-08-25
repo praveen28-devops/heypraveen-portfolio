@@ -1,4 +1,7 @@
-// Custom LinkedIn SVG icon to avoid deprecated lucide-react usage
+
+import FloatingParticles from './FloatingParticles';
+import ResumeActions from './ResumeActions';
+
 const LinkedInSvg = (props: any) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
@@ -9,30 +12,18 @@ const LinkedInSvg = (props: any) => (
   </svg>
 );
 import { useState, useEffect } from 'react';
-import { MapPin, Mail, Phone, Download, ChevronDown, Award, Target, TrendingUp } from 'lucide-react';
+import { MapPin, Mail, Phone, ChevronDown, Award, Target, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import FloatingParticles from './FloatingParticles';
+
 import profilePhoto from '../assets/profile-photo.png'
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
+
 
   useEffect(() => {
     setIsVisible(true);
     
-    // Enhanced device detection for better responsive design
-    const checkDevice = () => {
-      const width = window.innerWidth;
-      setIsMobile(width < 768);
-      setIsTablet(width >= 768 && width < 1024);
-    };
-    
-    checkDevice();
-    window.addEventListener('resize', checkDevice);
-    
-    return () => window.removeEventListener('resize', checkDevice);
   }, []);
   
 
@@ -50,28 +41,24 @@ const Hero = () => {
     }
   };
 
-  // Extract particleCount to avoid nested ternary in JSX
-  let particleCount = 120;
-  if (isMobile) particleCount = 40;
-  else if (isTablet) particleCount = 80;
+
 
   return (
     <section 
       id="hero" 
       className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-20 bg-black transition-colors duration-700"
     >
-      {/* Optimized Particle System for all devices */}
-      <FloatingParticles 
-        particleCount={particleCount}
-        colors={['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981']}
+
+      <FloatingParticles
+        particleCount={60}
+        colors={['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444']}
         className="absolute inset-0 pointer-events-none"
-        opacity={0.6}
-        enableMouse={!isMobile}
-        enableTrails={!isMobile}
-        enableGlow={!isMobile}
+        opacity={0.5}
+        enableMouse={true}
+        enableTouch={true}
+        mobileOptimizations={true}
       />
 
-      {/* Enhanced Animated Background - Device-optimized */}
       <div className="absolute inset-0 opacity-15 sm:opacity-25 md:opacity-30">
         <div className="absolute top-16 sm:top-24 md:top-32 left-8 sm:left-16 md:left-30 w-32 h-32 sm:w-64 sm:h-64 md:w-80 md:h-80 bg-accent/30 rounded-full blur-xl sm:blur-2xl md:blur-3xl floating-card"></div>
         <div className="absolute bottom-8 sm:bottom-16 md:bottom-20 right-4 sm:right-8 md:right-10 w-40 h-40 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-primary-glow/25 rounded-full blur-xl sm:blur-2xl md:blur-3xl floating-delayed"></div>
@@ -81,7 +68,6 @@ const Hero = () => {
 
   <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 relative z-10 animate-fade-in-up">
         <div className="text-center">
-          {/* Enhanced Profile Section with Device-Optimized Image */}
           <div className={`mb-3 sm:mb-4 md:mb-6 lg:mb-8 transition-all duration-1200 ${isVisible ? 'fade-in-scale' : 'opacity-0'}`}>
             <div className="relative inline-block mb-2 sm:mb-3 md:mb-4 lg:mb-6">
               <div className="w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] md:w-[200px] md:h-[200px] lg:w-[280px] lg:h-[280px] xl:w-[320px] xl:h-[320px] mx-auto rounded-full">
@@ -99,7 +85,6 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Enhanced Name and Title with HR-Focused Messaging */}
           <div className={`mb-3 sm:mb-4 md:mb-6 lg:mb-8 transition-all duration-1400 delay-300 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
             <h1 className="text-[clamp(2rem,8vw,3.5rem)] sm:text-[clamp(2.5rem,7vw,4.5rem)] md:text-[clamp(3rem,7vw,5.5rem)] lg:text-7xl xl:text-8xl font-bold mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-glow-blue leading-tight">
               <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-300 to-blue-600 animate-pulse">
@@ -114,7 +99,6 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* Enhanced Contact Info with Device-Optimized Layout */}
           <div className={`mb-3 sm:mb-4 md:mb-6 lg:mb-8 transition-all duration-1400 delay-500 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
             <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 max-w-4xl mx-auto">
               {contactItems.map((item, index) => (
@@ -142,16 +126,9 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Enhanced CTA Section with Dark Slate Theme */}
           <div className={`mb-4 sm:mb-6 md:mb-8 lg:mb-10 transition-all duration-1400 delay-700 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-              <Button 
-                onClick={() => window.open('/Praveen A-Resume.pdf', '_blank')}
-                className="bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 hover:from-slate-600 hover:to-slate-500 text-white font-semibold px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-3.5 rounded-[2rem] sm:rounded-[2.5rem] md:rounded-[3rem] text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 touch-manipulation group border border-slate-500/30 hover:border-slate-400/50"
-              >
-                <Download className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 mr-2 group-hover:animate-bounce" />
-                Download Resume
-              </Button>
+              <ResumeActions />
               
               <Button 
                 variant="outline"
@@ -164,7 +141,6 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Enhanced Key Highlights with Dark Slate Theme */}
           <div className={`transition-all duration-1400 delay-900 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
             <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 max-w-5xl mx-auto">
               <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50">
@@ -184,7 +160,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Enhanced Scroll Indicator with Dark Slate Theme */}
       <div className={`absolute bottom-6 sm:bottom-8 md:bottom-10 left-1/2 transform -translate-x-1/2 transition-all duration-1000 delay-1200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <button
           onClick={scrollToNextSection}

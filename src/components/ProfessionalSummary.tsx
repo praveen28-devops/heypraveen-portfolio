@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Code, Cloud, Zap, Shield, Award, Target, Clock, Users } from 'lucide-react';
+import ResumeActions from './ResumeActions';
 
-// Mock FloatingParticles component
 const FloatingParticles = ({ particleCount, className, colors = [] }) => (
   <div className={className}>
     {[...Array(particleCount)].map((_, i) => (
@@ -20,7 +20,6 @@ const FloatingParticles = ({ particleCount, className, colors = [] }) => (
   </div>
 );
 
-// Mock GeometricShapes component
 const GeometricShapes = ({ shapeCount }) => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
     {[...Array(shapeCount)].map((_, i) => (
@@ -59,7 +58,6 @@ const ProfessionalSummary = () => {
       observer.observe(element);
     }
 
-    // Enhanced device detection
     const checkDevice = () => {
       const width = window.innerWidth;
       setIsMobile(width < 768);
@@ -133,7 +131,6 @@ const ProfessionalSummary = () => {
 
   return (
     <section id="summary" className="py-6 sm:py-8 md:py-12 lg:py-16 relative overflow-hidden bg-black min-h-screen transition-all duration-700 animate-fade-in-up">
-      {/* Optimized Background Elements for different devices */}
       {!isMobile && !isTablet && (
         <>
           <FloatingParticles 
@@ -159,9 +156,7 @@ const ProfessionalSummary = () => {
         />
       )}
       
-      {/* ENHANCED: Perfect Circular Background Elements */}
       <div className="absolute inset-0 opacity-10">
-        {/* Primary Accent Orb - Perfect Circle */}
         <div 
           className="absolute top-8 sm:top-16 md:top-20 right-8 sm:right-16 md:right-20 animate-pulse"
           style={{
@@ -175,7 +170,6 @@ const ProfessionalSummary = () => {
           }}
         />
         
-        {/* Primary Blue Orb - Perfect Circle */}
         <div 
           className="absolute bottom-8 sm:bottom-16 md:bottom-20 left-8 sm:left-16 md:left-20 animate-pulse"
           style={{
@@ -190,7 +184,6 @@ const ProfessionalSummary = () => {
           }}
         />
 
-        {/* Additional Floating Orbs for Enhanced Depth */}
         <div 
           className="absolute top-1/3 left-1/3 animate-pulse"
           style={{
@@ -223,7 +216,6 @@ const ProfessionalSummary = () => {
       </div>
 
       <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 relative z-10">
-        {/* Enhanced Section Header */}
         <div className={`text-center mb-5 sm:mb-6 md:mb-8 lg:mb-12 transition-all duration-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3 md:mb-4 lg:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
             Professional Summary
@@ -237,7 +229,6 @@ const ProfessionalSummary = () => {
           </p>
         </div>
 
-        {/* Enhanced Main Summary Card */}
         <div className={`mb-6 sm:mb-8 md:mb-12 lg:mb-16 transition-all duration-800 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
           <div 
             className="bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 p-3 sm:p-4 md:p-6 lg:p-8"
@@ -258,7 +249,6 @@ const ProfessionalSummary = () => {
 
             </div>
 
-            {/* Enhanced Key Skills Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6 md:mb-8">
               {highlights.map((highlight, index) => (
                 <div
@@ -287,7 +277,6 @@ const ProfessionalSummary = () => {
               ))}
             </div>
 
-            {/* Recruiter-Focused Highlights */}
             <div className="border-t border-slate-600/30 pt-4 sm:pt-6 md:pt-8">
               <h4 className="text-base sm:text-lg md:text-xl font-semibold text-blue-400 mb-3 sm:mb-4 md:mb-6 text-center">
                 Key Advantages for Employers
@@ -325,7 +314,6 @@ const ProfessionalSummary = () => {
           </div>
         </div>
 
-        {/* Enhanced Call-to-Action */}
         <div className={`text-center transition-all duration-800 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div 
             className="bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 p-4 sm:p-6 md:p-8"
@@ -337,6 +325,7 @@ const ProfessionalSummary = () => {
             <p className="text-sm sm:text-base md:text-lg text-slate-300 mb-4 sm:mb-6 max-w-2xl mx-auto">
               I am actively seeking opportunities to apply my skills in cloud computing and DevOps. 
               Let's discuss how I can add value to your organization.
+              <ResumeActions variant="inline" className="ml-4" />
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <a
@@ -346,14 +335,7 @@ const ProfessionalSummary = () => {
               >
                 Contact Me
               </a>
-              <a
-                href="/Praveen A-Resume.pdf"
-                target="_blank"
-                className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-slate-900 font-semibold px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base transition-all duration-300 transform hover:scale-105"
-                style={{ borderRadius: '25px' }}
-              >
-                View Resume
-              </a>
+              <ResumeActions variant="compact" />
             </div>
           </div>
         </div>

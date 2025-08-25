@@ -1,94 +1,14 @@
-import { useEffect, useState } from 'react';
+// ...existing code...
 import { GraduationCap, Award, Calendar, MapPin, ExternalLink } from 'lucide-react';
-import { useScrollAnimation, useSectionTransition, useStaggeredAnimation } from '../hooks/use-scroll-animations';
-import { useMobile } from '../hooks/use-mobile';
+// ...existing code...
 
 // GeometricShapes component
-const GeometricShapes = ({ shapeCount = 10 }) => {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: shapeCount }).map((_, i) => (
-        <div
-          key={i}
-          className={`absolute opacity-10 ${i % 3 === 0 ? 'w-8 h-8' : i % 3 === 1 ? 'w-6 h-6' : 'w-4 h-4'} ${
-            i % 4 === 0 ? 'bg-blue-500' : i % 4 === 1 ? 'bg-purple-500' : i % 4 === 2 ? 'bg-cyan-500' : 'bg-green-500'
-          } ${i % 2 === 0 ? 'rounded-full' : 'rotate-45'}`}
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDuration: `${4 + Math.random() * 6}s`,
-            animationDelay: `${Math.random() * 3}s`,
-            animation: `drift ${4 + Math.random() * 6}s ease-in-out infinite`
-          }}
-        />
-      ))}
-      <style>{`
-        @keyframes drift {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(30px, -30px) rotate(120deg); }
-          66% { transform: translate(-20px, 20px) rotate(240deg); }
-        }
-      `}</style>
-    </div>
-  );
-};
 
-
-const FloatingParticles = ({ particleCount = 30, colors = ['#3b82f6', '#8b5cf6', '#06b6d4'] }) => {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: particleCount }).map((_, i) => (
-        <div
-          key={i}
-          className="absolute w-1 h-1 rounded-full opacity-60"
-          style={{
-            backgroundColor: colors[i % colors.length],
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDuration: `${3 + Math.random() * 4}s`,
-            animationDelay: `${Math.random() * 2}s`,
-            animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`
-          }}
-        />
-      ))}
-      <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          33% { transform: translateY(-20px) rotate(120deg); }
-          66% { transform: translateY(20px) rotate(240deg); }
-        }
-      `}</style>
-    </div>
-  );
-};
 
 const Education = () => {
-  const [flippedCards, setFlippedCards] = useState([]);
-  const { isMobile } = useMobile();
+
   
-  // Advanced scroll animations
-  const headerAnimation = useScrollAnimation({ 
-    animationType: 'fadeIn', 
-    threshold: 0.2,
-    duration: 800 
-  });
-  
-  const educationSectionAnimation = useScrollAnimation({ 
-    animationType: 'slideLeft', 
-    threshold: 0.15,
-    duration: 600,
-    staggerDelay: 150 
-  });
-  
-  const certificationAnimation = useScrollAnimation({ 
-    animationType: 'slideRight', 
-    threshold: 0.1,
-    duration: 500,
-    staggerDelay: 100 
-  });
-  
-  const sectionTransition = useSectionTransition('education');
-  const staggeredCerts = useStaggeredAnimation('[data-cert-card]');
+  // No animation hooks
 
   const education = [
     {
@@ -172,48 +92,22 @@ const Education = () => {
     }
   ];
 
-  const toggleCardFlip = (index) => {
-    setFlippedCards(prev => 
-      prev.includes(index) 
-        ? prev.filter(i => i !== index)
-        : [...prev, index]
-    );
-  };
+
 
   return (
     <section 
-      ref={sectionTransition.ref}
       id="education" 
-      className={`py-12 sm:py-16 md:py-20 relative overflow-hidden bg-black transition-all duration-1000 animate-fade-in-up ${
-        sectionTransition.isActive ? 'section-active' : ''
-      }`}
+      className="py-12 sm:py-16 md:py-20 relative overflow-hidden bg-black"
     >
       {/* Animated Background Effects */}
-      {!isMobile && <GeometricShapes shapeCount={10} />}
-      <FloatingParticles 
-        particleCount={isMobile ? 10 : 18} 
-        colors={['#3b82f6', '#8b5cf6', '#06b6d4']}
-      />
+  {/* No animated backgrounds */}
       
       {/* Background Elements - Enhanced for animations */}
-      <div className="absolute inset-0 opacity-5 sm:opacity-10">
-        <div className="absolute top-10 sm:top-20 right-10 sm:right-20 w-40 h-40 sm:w-80 sm:h-80 bg-cyan-500/30 rounded-full blur-2xl sm:blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-10 sm:bottom-20 left-10 sm:left-20 w-32 h-32 sm:w-64 sm:h-64 bg-blue-500/20 rounded-full blur-2xl sm:blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 right-1/4 w-28 h-28 sm:w-56 sm:h-56 bg-cyan-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-      </div>
+  {/* No background elements */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div 
-          ref={headerAnimation.ref}
-          className={`text-center mb-8 sm:mb-12 md:mb-16 transition-all duration-1000 ${
-            headerAnimation.isVisible 
-              ? isMobile 
-                ? 'animate-mobile-scroll-reveal opacity-100' 
-                : 'translate-y-0 opacity-100' 
-              : 'opacity-0 translate-y-10'
-          }`}
-        >
+  <div className="text-center mb-8 sm:mb-12 md:mb-16">
           <h2 className="text-[clamp(1.75rem,6vw,3rem)] sm:text-[clamp(2rem,6vw,3.5rem)] md:text-[clamp(3rem,6vw,4rem)] lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
             Education & Certifications
           </h2>
@@ -222,34 +116,14 @@ const Education = () => {
 
         {/* Education Section */}
         <div className="mb-12 sm:mb-16 md:mb-20">
-          <h3 
-            ref={educationSectionAnimation.ref}
-            className={`text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8 text-white transition-all duration-1000 delay-300 ${
-              educationSectionAnimation.isVisible 
-                ? isMobile 
-                  ? 'animate-mobile-slide-left opacity-100' 
-                  : '-translate-x-0 opacity-100' 
-                : 'opacity-0 -translate-x-10'
-            }`}
-          >
+          <h3 className="text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8 text-white">
             Academic Background
           </h3>
           <div className="space-y-6 sm:space-y-8">
-            {education.map((edu, index) => (
+            {education.map((edu) => (
               <div
-                key={index}
-                data-stagger
-                className={`bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-1000 ${
-                  educationSectionAnimation.isVisible 
-                    ? isMobile 
-                      ? 'animate-mobile-float-up opacity-100' 
-                      : 'opacity-100 translate-x-0' 
-                    : 'opacity-0 -translate-x-8'
-                }`}
-                style={{ 
-                  transitionDelay: `${400 + index * 150}ms`,
-                  animationDelay: isMobile ? `${index * 200}ms` : undefined
-                }}
+                key={edu.degree + edu.institution}
+                className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-xl"
               >
                 <div className="flex flex-col lg:flex-row lg:items-start lg:space-x-6 sm:lg:space-x-8">
                   <div className="flex-shrink-0 mb-3 sm:mb-4 lg:mb-0">
@@ -277,8 +151,8 @@ const Education = () => {
                       </div>
                     </div>
                     <div className="space-y-1.5 sm:space-y-2">
-                      {edu.highlights.map((highlight, hIndex) => (
-                        <div key={hIndex} className="flex items-start space-x-2">
+                      {edu.highlights.map((highlight) => (
+                        <div key={highlight} className="flex items-start space-x-2">
                           <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-400 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
                           <p className="text-xs sm:text-sm text-slate-400">{highlight}</p>
                         </div>
@@ -293,53 +167,30 @@ const Education = () => {
 
         {/* Certifications Section */}
         <div>
-          <h3 
-            ref={certificationAnimation.ref}
-            className={`text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8 text-white transition-all duration-1000 delay-700 ${
-              certificationAnimation.isVisible 
-                ? isMobile 
-                  ? 'animate-mobile-slide-right opacity-100' 
-                  : 'translate-x-0 opacity-100' 
-                : 'opacity-0 translate-x-10'
-            }`}
-          >
+          <h3 className="text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8 text-white">
             Professional Certifications
           </h3>
-          <div 
-            ref={staggeredCerts.ref}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
-          >
-            {certifications.map((cert, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {certifications.map((cert) => (
               <a
-                key={index}
+                key={cert.title + cert.issuer}
                 href={cert.credentialUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                data-cert-card
-                className={`relative group cursor-pointer transition-all duration-700 hover:scale-105 hover:shadow-xl ${
-                  certificationAnimation.isVisible 
-                    ? isMobile 
-                      ? 'animate-mobile-card-flip opacity-100' 
-                      : 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-8'
-                }`}
-                style={{ 
-                  transitionDelay: `${700 + index * 150}ms`,
-                  animationDelay: isMobile ? `${index * 100}ms` : undefined
-                }}
+                className="relative group cursor-pointer"
               >
-                <div className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-5 lg:p-6 h-full transition-all duration-500 group-hover:shadow-lg group-hover:shadow-cyan-500/20 group-hover:bg-gradient-to-br group-hover:from-slate-800 group-hover:to-cyan-500/5">
-                  <div className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br ${cert.color} rounded-lg sm:rounded-xl md:rounded-2xl flex items-center justify-center mb-2 sm:mb-3 md:mb-4 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300`}>
-                    <Award className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white group-hover:animate-pulse" />
+                <div className={`bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-5 lg:p-6 h-full`}>
+                  <div className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br ${cert.color} rounded-lg sm:rounded-xl md:rounded-2xl flex items-center justify-center mb-2 sm:mb-3 md:mb-4`}>
+                    <Award className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" />
                   </div>
-                  <h4 className="text-sm sm:text-base md:text-lg font-bold text-white mb-1 sm:mb-2 line-clamp-2 group-hover:text-cyan-400 transition-colors duration-300 leading-tight">{cert.title}</h4>
-                  <p className="text-cyan-400 font-semibold mb-1 text-xs sm:text-sm group-hover:scale-105 transition-transform duration-300">{cert.issuer}</p>
+                  <h4 className="text-sm sm:text-base md:text-lg font-bold text-white mb-1 sm:mb-2 line-clamp-2 leading-tight">{cert.title}</h4>
+                  <p className="text-cyan-400 font-semibold mb-1 text-xs sm:text-sm">{cert.issuer}</p>
                   <p className="text-xs sm:text-sm text-slate-400 mb-2 sm:mb-3">{cert.date}</p>
-                  <div className={`inline-block px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r ${cert.color} text-white text-xs font-medium rounded-full group-hover:scale-105 transition-transform duration-300`}>
+                  <div className={`inline-block px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r ${cert.color} text-white text-xs font-medium rounded-full`}>
                     {cert.level}
                   </div>
-                  <div className="absolute top-2 sm:top-3 right-2 sm:right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110">
-                    <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 text-cyan-400 animate-pulse" />
+                  <div className="absolute top-2 sm:top-3 right-2 sm:right-3">
+                    <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 text-cyan-400" />
                   </div>
                 </div>
               </a>

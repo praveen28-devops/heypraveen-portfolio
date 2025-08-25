@@ -6,7 +6,7 @@ interface SEOProps {
   keywords?: string;
 }
 
-const SEO = ({ 
+const Seo = ({ 
   title = "Praveen A - Cloud & DevOps Engineer | Portfolio",
   description = "B.Tech IT Graduate specializing in Cloud Computing and DevOps. Experienced in AWS, Docker, Kubernetes, CI/CD, and automation. Ready for immediate joining.",
   keywords = "DevOps Engineer, Cloud Computing, AWS, Docker, Kubernetes, CI/CD, Automation, B.Tech IT, Portfolio, Praveen A"
@@ -64,4 +64,4 @@ const SEO = ({
   return null;
 };
 
-export default SEO;
+export default Seo;
