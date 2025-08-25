@@ -31,7 +31,7 @@ const Hero = () => {
     { icon: MapPin, text: 'Namakkal, Tamil Nadu, India', href: 'https://maps.app.goo.gl/TmHd9zgFyMdSK8Kc7', color: "text-red-500" },
     { icon: Mail, text: 'praveen.dev.cloud@gmail.com', href: 'mailto:praveen.dev.cloud@gmail.com' },
     { icon: Phone, text: '+91 6382832865', href: 'tel:+916382832865' },
-    { icon: LinkedInSvg, text: 'LinkedIn', href: 'https://www.linkedin.com/in/praveen-a-devops' },
+    { icon: LinkedInSvg, text: 'Linkedin', href: 'https://www.linkedin.com/in/praveen-a-devops' },
   ];
 
   const scrollToNextSection = () => {
