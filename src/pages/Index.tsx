@@ -5,10 +5,12 @@ import TechnicalSkills from '@/components/TechnicalSkills';
 import Education from '@/components/Education';
 import Projects from '@/components/Projects_fixed';
 import Volunteering from '@/components/Volunteering';
+import SEO from '@/components/SEO';
 
 const Index = () => {
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative bg-black transition-all duration-700">
+      <SEO />
       <Navigation />
       <Hero />
       <ProfessionalSummary />

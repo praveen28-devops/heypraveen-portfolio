@@ -1,9 +1,18 @@
+// Custom LinkedIn SVG icon to avoid deprecated lucide-react usage
+const LinkedInSvg = (props: any) => (
+  <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <line x1="16" y1="11" x2="16" y2="16" />
+    <line x1="8" y1="11" x2="8" y2="16" />
+    <line x1="8" y1="8" x2="8" y2="8" />
+    <line x1="16" y1="8" x2="16" y2="8" />
+  </svg>
+);
 import { useState, useEffect } from 'react';
-import { MapPin, Mail, Phone, Linkedin, Github, Download, ChevronDown, Award, Target, TrendingUp, Code, Cloud, Zap } from 'lucide-react';
+import { MapPin, Mail, Phone, Download, ChevronDown, Award, Target, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import FloatingParticles from './FloatingParticles';
 import profilePhoto from '../assets/profile-photo.png'
-import heroBg from '../assets/hero-bg.jpg'
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -25,18 +34,13 @@ const Hero = () => {
     
     return () => window.removeEventListener('resize', checkDevice);
   }, []);
+  
 
   const contactItems = [
-    { icon: MapPin, text: 'Namakkal, Tamil Nadu, India', href: 'https://maps.app.goo.gl/TmHd9zgFyMdSK8Kc7', color: "text-red-400"},
-    { icon: Mail, text: 'praveen.dev.cloud@gmail.com', href: 'mailto:praveen.dev.cloud@gmail.com', color: "text-blue-400" },
-    { icon: Phone, text: '+91 6382832865', href: 'tel:+916382832865', color: "text-green-400" },
-    { icon: Linkedin, text: 'LinkedIn', href: 'https://www.linkedin.com/in/praveen-a-devops', color: "text-cyan-400" },
-  ];
-
-  const floatingCards = [
-    { icon: Code, title: 'DevOps', description: 'CI/CD & Automation', color: 'from-blue-500 to-cyan-500' },
-    { icon: Cloud, title: 'Cloud', description: 'AWS & Azure Expert', color: 'from-purple-500 to-pink-500' },
-    { icon: Zap, title: 'Performance', description: 'Optimization Focus', color: 'from-yellow-500 to-orange-500' },
+    { icon: MapPin, text: 'Namakkal, Tamil Nadu, India', href: 'https://maps.app.goo.gl/TmHd9zgFyMdSK8Kc7', color: "text-red-500" },
+    { icon: Mail, text: 'praveen.dev.cloud@gmail.com', href: 'mailto:praveen.dev.cloud@gmail.com' },
+    { icon: Phone, text: '+91 6382832865', href: 'tel:+916382832865' },
+    { icon: LinkedInSvg, text: 'LinkedIn', href: 'https://www.linkedin.com/in/praveen-a-devops' },
   ];
 
   const scrollToNextSection = () => {
@@ -46,14 +50,19 @@ const Hero = () => {
     }
   };
 
+  // Extract particleCount to avoid nested ternary in JSX
+  let particleCount = 120;
+  if (isMobile) particleCount = 40;
+  else if (isTablet) particleCount = 80;
+
   return (
     <section 
       id="hero" 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-20 bg-black"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-20 bg-black transition-colors duration-700"
     >
       {/* Optimized Particle System for all devices */}
       <FloatingParticles 
-        particleCount={isMobile ? 40 : isTablet ? 80 : 120}
+        particleCount={particleCount}
         colors={['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981']}
         className="absolute inset-0 pointer-events-none"
         opacity={0.6}
@@ -70,7 +79,7 @@ const Hero = () => {
         <div className="absolute top-12 sm:top-20 md:top-32 right-12 sm:right-20 md:right-32 w-24 h-24 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-highlight-blue/15 rounded-full blur-xl sm:blur-2xl md:blur-3xl floating-card" style={{ animationDelay: '4s' }}></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 relative z-10">
+  <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 relative z-10 animate-fade-in-up">
         <div className="text-center">
           {/* Enhanced Profile Section with Device-Optimized Image */}
           <div className={`mb-3 sm:mb-4 md:mb-6 lg:mb-8 transition-all duration-1200 ${isVisible ? 'fade-in-scale' : 'opacity-0'}`}>
@@ -90,18 +99,18 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Enhanced Name and Title with Design System Typography */}
+          {/* Enhanced Name and Title with HR-Focused Messaging */}
           <div className={`mb-3 sm:mb-4 md:mb-6 lg:mb-8 transition-all duration-1400 delay-300 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
-            <h1 className="text-design-4xl sm:text-design-5xl font-design-black mb-2 sm:mb-3 md:mb-4 lg:mb-6 leading-design-tight tracking-design-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-600 drop-shadow-2xl">
+            <h1 className="text-[clamp(2rem,8vw,3.5rem)] sm:text-[clamp(2.5rem,7vw,4.5rem)] md:text-[clamp(3rem,7vw,5.5rem)] lg:text-7xl xl:text-8xl font-bold mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-glow-blue leading-tight">
+              <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-300 to-blue-600 animate-pulse">
                 Praveen A
               </span>
             </h1>
-            <h2 className="text-design-xl sm:text-design-2xl md:text-design-3xl font-design-bold text-white mb-2 sm:mb-3 md:mb-4 leading-design-tight tracking-design-wide">
+            <h2 className="text-[clamp(1.125rem,4vw,1.5rem)] sm:text-[clamp(1.25rem,4vw,2rem)] md:text-[clamp(1.5rem,4vw,2.5rem)] lg:text-3xl xl:text-4xl font-semibold text-white mb-2 sm:mb-3 md:mb-4 text-glow leading-tight">
               Cloud & DevOps Engineer
             </h2>
-            <p className="text-design-sm sm:text-design-base md:text-design-lg text-slate-300 max-w-4xl mx-auto leading-design-relaxed px-2 sm:px-4 md:px-6">
-              B.Tech Information Technology Graduate • DevOps Enthusiast • Automation Specialist • <span className="text-green-400 font-design-semibold">Ready for Immediate Joining</span>
+            <p className="text-[clamp(0.875rem,3.5vw,1rem)] sm:text-[clamp(1rem,3.5vw,1.125rem)] md:text-lg lg:text-xl xl:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 md:px-6">
+              B.Tech Information Technology Graduate | DevOps Enthusiast | Automation Specialist | Ready for Immediate Joining
             </p>
           </div>
 
@@ -110,7 +119,7 @@ const Hero = () => {
             <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 max-w-4xl mx-auto">
               {contactItems.map((item, index) => (
                 <a
-                  key={index}
+                  key={item.text}
                   href={item.href}
                   target={item.href.startsWith('http') ? '_blank' : '_self'}
                   rel={item.href.startsWith('http') ? 'noopener noreferrer' : ''}
@@ -155,39 +164,20 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Floating Cards Section */}
-          <div className={`mb-6 sm:mb-8 transition-all duration-1400 delay-800 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto px-4">
-              {floatingCards.map((card, index) => (
-                <div
-                  key={index}
-                  className={`glass-card p-4 sm:p-6 text-center transition-all duration-500 hover:scale-105`}
-                  style={{ animationDelay: `${index * 200}ms` }}
-                >
-                  <div className={`inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${card.color} rounded-xl mb-3 sm:mb-4 shadow-lg`}>
-                    <card.icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
-                  </div>
-                  <h3 className="text-design-base sm:text-design-lg font-design-bold text-white mb-1 sm:mb-2">{card.title}</h3>
-                  <p className="text-design-xs sm:text-design-sm text-slate-400 leading-design-relaxed">{card.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Enhanced Key Highlights */}
-          <div className={`transition-all duration-1400 delay-1000 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
+          {/* Enhanced Key Highlights with Dark Slate Theme */}
+          <div className={`transition-all duration-1400 delay-900 ${isVisible ? 'slide-in-up' : 'opacity-0 translate-y-10'}`}>
             <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 max-w-5xl mx-auto">
-              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50 hover:border-yellow-400/50 transition-all duration-300">
+              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50">
                 <Award className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400" />
-                <span className="text-design-xs sm:text-design-sm md:text-design-base font-design-medium">AWS Certified</span>
+                <span className="text-xs sm:text-sm md:text-base font-medium">AWS Certified</span>
               </div>
-              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50 hover:border-green-400/50 transition-all duration-300">
+              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50">
                 <Target className="h-4 w-4 sm:h-5 sm:w-5 text-green-400" />
-                <span className="text-design-xs sm:text-design-sm md:text-design-base font-design-medium">Ready to Join</span>
+                <span className="text-xs sm:text-sm md:text-base font-medium">Ready to Join</span>
               </div>
-              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50 hover:border-blue-400/50 transition-all duration-300">
+              <div className="flex items-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800/80 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2rem] text-white/90 border border-slate-700/50">
                 <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400" />
-                <span className="text-design-xs sm:text-design-sm md:text-design-base font-design-medium">Fast Learner</span>
+                <span className="text-xs sm:text-sm md:text-base font-medium">Fast Learner</span>
               </div>
             </div>
           </div>

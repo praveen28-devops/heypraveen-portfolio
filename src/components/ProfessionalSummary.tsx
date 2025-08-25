@@ -1,214 +1,48 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { Code, Cloud, Zap, Shield, Award, Target, Clock, Users, Star, Sparkles, ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Code, Cloud, Zap, Shield, Award, Target, Clock, Users } from 'lucide-react';
 
-// Minimal Floating Elements (Apple-style)
-const MinimalParticles = ({ particleCount, className }) => {
-  const [particles, setParticles] = useState([]);
-
-  useEffect(() => {
-    const newParticles = [...Array(particleCount)].map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 2 + 1,
-      opacity: Math.random() * 0.3 + 0.1,
-    }));
-    setParticles(newParticles);
-  }, [particleCount]);
-
-  return (
-    <div className={className}>
-      {particles.map((particle) => (
-        <div
-          key={particle.id}
-          className="absolute rounded-full"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            opacity: particle.opacity,
-            animation: `float ${8 + Math.random() * 4}s ease-in-out infinite ${Math.random() * 2}s`,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
-// Apple-style Magnetic Button
-const AppleButton = ({ children, variant = 'primary', className = '', onClick, ...props }) => {
-  const buttonRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = useCallback((e) => {
-    if (!buttonRef.current) return;
-    
-    const rect = buttonRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    
-    buttonRef.current.style.transform = `translate(${x * 0.05}px, ${y * 0.05}px)`;
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    if (!buttonRef.current) return;
-    buttonRef.current.style.transform = 'translate(0px, 0px)';
-    setIsHovered(false);
-  }, []);
-
-  const baseStyles = "relative inline-flex items-center justify-center font-medium transition-all duration-300 ease-out overflow-hidden group";
-  const variants = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl",
-    secondary: "border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 rounded-full"
-  };
-
-  return (
-    <button
-      ref={buttonRef}
-      className={`${baseStyles} ${variants[variant]} ${className}`}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onMouseEnter={() => setIsHovered(true)}
-      onClick={onClick}
-      {...props}
-    >
-      <span className="relative z-10 flex items-center space-x-2">
-        {children}
-      </span>
-      {variant === 'primary' && (
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      )}
-    </button>
-  );
-};
-
-// Apple-style Scroll Progress
-const ScrollProgress = () => {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const updateProgress = () => {
-      const scrolled = window.scrollY;
-      const maxHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrolled / maxHeight) * 100;
-      setProgress(Math.min(progress, 100));
-    };
-
-    window.addEventListener('scroll', updateProgress);
-    return () => window.removeEventListener('scroll', updateProgress);
-  }, []);
-
-  return (
-    <div className="fixed top-0 left-0 w-full h-1 bg-black/10 z-50">
-      <div 
-        className="h-full bg-blue-600 transition-all duration-150 ease-out"
-        style={{ width: `${progress}%` }}
+// Mock FloatingParticles component
+const FloatingParticles = ({ particleCount, className, colors = [] }) => (
+  <div className={className}>
+    {[...Array(particleCount)].map((_, i) => (
+      <div
+        key={i}
+        className="absolute w-1 h-1 bg-blue-400/30 rounded-full animate-pulse"
+        style={{
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          animationDelay: `${Math.random() * 3}s`,
+          animationDuration: `${2 + Math.random() * 2}s`,
+          backgroundColor: colors[i % colors.length] || 'rgba(59, 130, 246, 0.3)'
+        }}
       />
-    </div>
-  );
-};
+    ))}
+  </div>
+);
 
-// Apple-style Card Component
-const FeatureCard = ({ icon: Icon, title, description, color, delay = 0 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setIsVisible(true), delay);
-        }
-      },
-      { threshold: 0.3, rootMargin: '50px' }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [delay]);
-
-  return (
-    <div
-      ref={cardRef}
-      className={`group bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 transition-all duration-700 ease-out hover:bg-white/10 hover:border-white/20 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-1 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
-    >
-      <div className={`w-14 h-14 ${color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-        <Icon className="h-7 w-7" />
-      </div>
-      <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-blue-400 transition-colors">
-        {title}
-      </h3>
-      <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-        {description}
-      </p>
-    </div>
-  );
-};
-
-// Apple-style Stat Counter
-const StatCounter = ({ value, label, suffix = "", delay = 0 }) => {
-  const [count, setCount] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const elementRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
-          setTimeout(() => setIsVisible(true), delay);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [isVisible, delay]);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
-    let startTime;
-    const animate = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / 1500, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(value * easeOut));
-      
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-    
-    requestAnimationFrame(animate);
-  }, [isVisible, value]);
-
-  return (
-    <div ref={elementRef} className="text-center">
-      <div className="text-4xl md:text-5xl font-bold text-blue-400 mb-2">
-        {count}{suffix}
-      </div>
-      <div className="text-sm text-gray-400 font-medium uppercase tracking-wider">
-        {label}
-      </div>
-    </div>
-  );
-};
+// Mock GeometricShapes component
+const GeometricShapes = ({ shapeCount }) => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    {[...Array(shapeCount)].map((_, i) => (
+      <div
+        key={i}
+        className="absolute w-2 h-2 bg-purple-400/20 rotate-45 animate-spin"
+        style={{
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          animationDuration: `${10 + Math.random() * 20}s`,
+          animationDelay: `${Math.random() * 5}s`,
+          borderRadius: '2px'
+        }}
+      />
+    ))}
+  </div>
+);
 
 const ProfessionalSummary = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const sectionRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -217,217 +51,314 @@ const ProfessionalSummary = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1, rootMargin: '100px' }
+      { threshold: 0.2, rootMargin: '50px' }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const element = document.getElementById('summary');
+    if (element) {
+      observer.observe(element);
     }
 
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Enhanced device detection
+    const checkDevice = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
+    };
+    
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
 
     return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
-      window.removeEventListener('scroll', handleScroll);
+      if (element) {
+        observer.unobserve(element);
+      }
+      window.removeEventListener('resize', checkDevice);
     };
   }, []);
 
-  const features = [
+  const highlights = [
     {
       icon: Code,
       title: 'Quick Learner',
-      description: 'Rapidly acquiring new technologies and development practices with a focus on modern solutions.',
-      color: 'bg-gradient-to-br from-blue-500 to-blue-600'
+      description: 'Rapidly acquiring new technologies and development practices',
+      color: 'text-blue-400'
     },
     {
       icon: Cloud,
       title: 'Cloud Enthusiast',
-      description: 'Passionate about AWS, Azure, and modern cloud architectures that drive business innovation.',
-      color: 'bg-gradient-to-br from-cyan-500 to-cyan-600'
+      description: 'Passionate about AWS, Azure, and modern cloud architectures',
+      color: 'text-cyan-400'
     },
     {
       icon: Zap,
       title: 'Problem Solver',
-      description: 'Analytical approach to troubleshooting and optimization with creative thinking.',
-      color: 'bg-gradient-to-br from-yellow-500 to-orange-500'
+      description: 'Analytical approach to troubleshooting and optimization',
+      color: 'text-yellow-400'
     },
     {
       icon: Shield,
       title: 'Quality Focused',
-      description: 'Committed to best practices and secure coding standards in every project.',
-      color: 'bg-gradient-to-br from-green-500 to-emerald-600'
+      description: 'Committed to best practices and secure coding standards',
+      color: 'text-green-400'
     }
   ];
 
-  const stats = [
-    { value: 15, label: 'Projects', suffix: '+' },
-    { value: 8, label: 'Technologies', suffix: '+' },
-    { value: 3, label: 'Certifications', suffix: '' },
-    { value: 100, label: 'Availability', suffix: '%' }
+  const recruiterHighlights = [
+    {
+      icon: Award,
+      title: 'AWS Certified',
+      description: 'Professional cloud computing certification',
+      color: 'text-orange-400'
+    },
+    {
+      icon: Target,
+      title: 'Ready to Join',
+      description: 'Available for immediate employment',
+      color: 'text-green-400'
+    },
+    {
+      icon: Clock,
+      title: 'Fast Learner',
+      description: 'Quickly adapts to new technologies',
+      color: 'text-blue-400'
+    },
+    {
+      icon: Users,
+      title: 'Team Player',
+      description: 'Collaborative and communication skills',
+      color: 'text-purple-400'
+    }
   ];
 
   return (
-    <>
-      <ScrollProgress />
-      <section 
-        id="summary" 
-        className="py-12 sm:py-16 md:py-20 relative overflow-hidden bg-black"
-      >
-        {/* Apple-style Minimal Background */}
-        <div className="absolute inset-0">
-          {/* Subtle gradient overlay with enhanced parallax */}
-          <div 
-            className="absolute inset-0"
-            style={{
-              background: `
-                radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(34, 211, 238, 0.08) 0%, transparent 50%),
-                linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%)
-              `,
-              transform: `translateY(${scrollY * 0.15}px)`
-            }}
+    <section id="summary" className="py-6 sm:py-8 md:py-12 lg:py-16 relative overflow-hidden bg-black min-h-screen transition-all duration-700 animate-fade-in-up">
+      {/* Optimized Background Elements for different devices */}
+      {!isMobile && !isTablet && (
+        <>
+          <FloatingParticles 
+            particleCount={25} 
+            colors={['rgba(59, 130, 246, 0.4)', 'rgba(34, 211, 238, 0.4)', 'rgba(59, 130, 246, 0.2)', 'rgba(34, 211, 238, 0.2)']}
+            className="absolute inset-0 opacity-20"
           />
-          
-          {/* Minimal floating elements */}
-          <MinimalParticles particleCount={12} className="absolute inset-0 opacity-30" />
-          
-          {/* Single accent orb with parallax */}
+          <GeometricShapes shapeCount={5} />
+        </>
+      )}
+      {isTablet && (
+        <FloatingParticles 
+          particleCount={18} 
+          colors={['rgba(59, 130, 246, 0.4)', 'rgba(34, 211, 238, 0.4)']}
+          className="absolute inset-0 opacity-20"
+        />
+      )}
+      {isMobile && (
+        <FloatingParticles 
+          particleCount={12} 
+          colors={['rgba(59, 130, 246, 0.4)', 'rgba(34, 211, 238, 0.4)']}
+          className="absolute inset-0 opacity-20"
+        />
+      )}
+      
+      {/* ENHANCED: Perfect Circular Background Elements */}
+      <div className="absolute inset-0 opacity-10">
+        {/* Primary Accent Orb - Perfect Circle */}
+        <div 
+          className="absolute top-8 sm:top-16 md:top-20 right-8 sm:right-16 md:right-20 animate-pulse"
+          style={{
+            width: 'clamp(96px, 15vw, 256px)',
+            height: 'clamp(96px, 15vw, 256px)',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 30% 30%, rgba(34, 211, 238, 0.4), rgba(34, 211, 238, 0.1))',
+            filter: 'blur(40px)',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+          }}
+        />
+        
+        {/* Primary Blue Orb - Perfect Circle */}
+        <div 
+          className="absolute bottom-8 sm:bottom-16 md:bottom-20 left-8 sm:left-16 md:left-20 animate-pulse"
+          style={{
+            width: 'clamp(128px, 20vw, 320px)',
+            height: 'clamp(128px, 20vw, 320px)',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 70% 70%, rgba(59, 130, 246, 0.35), rgba(59, 130, 246, 0.08))',
+            filter: 'blur(45px)',
+            animationDelay: '3s',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+          }}
+        />
+
+        {/* Additional Floating Orbs for Enhanced Depth */}
+        <div 
+          className="absolute top-1/3 left-1/3 animate-pulse"
+          style={{
+            width: 'clamp(64px, 12vw, 160px)',
+            height: 'clamp(64px, 12vw, 160px)',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.3), rgba(168, 85, 247, 0.05))',
+            filter: 'blur(32px)',
+            animationDelay: '1.5s',
+            animationDuration: '4s',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+          }}
+        />
+        
+        <div 
+          className="absolute bottom-1/3 right-1/3 animate-pulse"
+          style={{
+            width: 'clamp(80px, 14vw, 200px)',
+            height: 'clamp(80px, 14vw, 200px)',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.25), rgba(16, 185, 129, 0.05))',
+            filter: 'blur(35px)',
+            animationDelay: '2.5s',
+            animationDuration: '5s',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+          }}
+        />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 relative z-10">
+        {/* Enhanced Section Header */}
+        <div className={`text-center mb-5 sm:mb-6 md:mb-8 lg:mb-12 transition-all duration-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3 md:mb-4 lg:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
+            Professional Summary
+          </h2>
           <div 
-            className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full filter blur-3xl"
-            style={{
-              transform: `translateY(${scrollY * 0.08}px)`
-            }}
+            className="w-10 sm:w-12 md:w-16 lg:w-20 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto"
+            style={{ borderRadius: '2px' }}
           />
+          <p className="text-sm sm:text-base md:text-lg text-slate-400 mt-2 sm:mt-3 md:mt-4 max-w-3xl mx-auto">
+            A dedicated Cloud & DevOps professional ready to contribute to innovative projects
+          </p>
         </div>
 
-        <div 
-          className="relative z-10 max-w-6xl mx-auto px-6 py-20 lg:py-32"
-          style={{ transform: `translateY(${scrollY * 0.03}px)` }}
-        >
-          {/* Hero Section - Apple Style */}
-          <div className={`text-center mb-20 lg:mb-32 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight tracking-tight">
-              Professional
-              <br />
-              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                Summary
-              </span>
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
-              A dedicated Cloud & DevOps professional ready to contribute 
-              to innovative projects with cutting-edge solutions.
-            </p>
-          </div>
+        {/* Enhanced Main Summary Card */}
+        <div className={`mb-6 sm:mb-8 md:mb-12 lg:mb-16 transition-all duration-800 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+          <div 
+            className="bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 p-3 sm:p-4 md:p-6 lg:p-8"
+            style={{ borderRadius: '24px' }}
+          >
+            <div className="text-center mb-4 sm:mb-6 md:mb-8">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-blue-400 mb-2 sm:mb-3 md:mb-4">
+                Why Choose Me?
+              </h3>
+              <p className="text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed max-w-4xl mx-auto">
+  I am a <strong className="text-white">B.Tech Information Technology student</strong> passionate about 
+  <strong className="text-white"> Cloud Computing and DevOps</strong>. My skills include 
+  <strong className="text-white"> AWS services, CI/CD pipelines, infrastructure automation, and modern development practices</strong>. 
+  With a strong commitment to continuous learning and problem-solving, I am 
+  <strong className="text-cyan-400"> available for immediate joining</strong> and eager to 
+  <strong className="text-white"> contribute to impactful projects</strong> while advancing my expertise in the DevOps field.
+</p>
 
-          {/* Main Content Card - Apple Style */}
-          <div className={`mb-20 transition-all duration-800 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-            <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 md:p-12 lg:p-16">
-              
-              {/* About Section */}
-              <div className="text-center mb-16">
-                <div className="inline-flex items-center space-x-2 bg-blue-600/20 rounded-full px-4 py-2 mb-8">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
-                  <span className="text-sm font-medium text-blue-400">Available Now</span>
-                </div>
-                
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-8 leading-tight">
-                  Why Choose Me?
-                </h2>
-                
-                <div className="bg-white/5 rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto">
-                  <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                    I am a <span className="text-white font-semibold">B.Tech Information Technology student</span> passionate about 
-                    <span className="text-blue-400 font-semibold"> Cloud Computing and DevOps</span>. My expertise includes 
-                    <span className="text-cyan-400 font-semibold"> AWS services, CI/CD pipelines, infrastructure automation, and modern development practices</span>.
-                    <br /><br />
-                    With a commitment to continuous learning and innovative problem-solving, I am 
-                    <span className="text-green-400 font-semibold"> immediately available</span> and excited to 
-                    <span className="text-purple-400 font-semibold"> drive impactful results</span> in cutting-edge DevOps environments.
+            </div>
+
+            {/* Enhanced Key Skills Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6 md:mb-8">
+              {highlights.map((highlight, index) => (
+                <div
+                  key={index}
+                  className={`bg-slate-700/50 backdrop-blur-sm border border-slate-600/30 p-3 sm:p-4 md:p-5 text-center transition-all duration-500 hover:scale-105 hover:shadow-lg hover:border-slate-500/50 hover:bg-slate-700/70 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                  }`}
+                  style={{ 
+                    transitionDelay: `${400 + index * 100}ms`,
+                    borderRadius: '20px'
+                  }}
+                >
+                  <div 
+                    className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 mx-auto mb-2 sm:mb-3 bg-slate-800/50 flex items-center justify-center ${highlight.color}`}
+                    style={{ borderRadius: '16px' }}
+                  >
+                    <highlight.icon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                  </div>
+                  <h4 className="text-sm sm:text-base md:text-lg font-semibold text-blue-400 mb-1 sm:mb-2">
+                    {highlight.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    {highlight.description}
                   </p>
                 </div>
-              </div>
-
-              {/* Features Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-                {features.map((feature, index) => (
-                  <FeatureCard
-                    key={index}
-                    icon={feature.icon}
-                    title={feature.title}
-                    description={feature.description}
-                    color={feature.color}
-                    delay={index * 100}
-                  />
-                ))}
-              </div>
-
-              {/* Stats Section */}
-              <div className="border-t border-white/10 pt-16">
-                <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-12">
-                  By the Numbers
-                </h3>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                  {stats.map((stat, index) => (
-                    <StatCounter
-                      key={stat.label}
-                      value={stat.value}
-                      label={stat.label}
-                      suffix={stat.suffix}
-                      delay={index * 100}
-                    />
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
-          </div>
 
-          {/* Call to Action - Apple Style */}
-          <div className={`text-center transition-all duration-800 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl p-12 lg:p-16">
-              <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-                Ready to Make an Impact
-              </h3>
-              
-              <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-                Let's discuss how I can drive innovation and efficiency in your organization.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <AppleButton
-                  variant="primary"
-                  onClick={() => window.location.href = 'mailto:praveen.dev.cloud@gmail.com'}
-                  className="text-lg px-10 py-4"
-                >
-                  <span>Contact Me</span>
-                  <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </AppleButton>
-                
-                <AppleButton
-                  variant="secondary"
-                  onClick={() => window.open('/Praveen A-Resume.pdf', '_blank')}
-                  className="text-lg px-10 py-4"
-                >
-                  View Resume
-                </AppleButton>
-              </div>
-              
-              <div className="mt-8 text-sm text-gray-500">
-                Response within <span className="text-blue-400 font-semibold">24 hours</span>
+            {/* Recruiter-Focused Highlights */}
+            <div className="border-t border-slate-600/30 pt-4 sm:pt-6 md:pt-8">
+              <h4 className="text-base sm:text-lg md:text-xl font-semibold text-blue-400 mb-3 sm:mb-4 md:mb-6 text-center">
+                Key Advantages for Employers
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+                {recruiterHighlights.map((highlight, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-slate-700/30 border border-slate-600/20 transition-all duration-300 hover:bg-slate-600/40 hover:border-slate-500/40 ${
+                      isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                    }`}
+                    style={{ 
+                      transitionDelay: `${600 + index * 100}ms`,
+                      borderRadius: '16px'
+                    }}
+                  >
+                    <div 
+                      className={`w-6 h-6 sm:w-7 sm:h-7 bg-slate-800/50 flex items-center justify-center ${highlight.color}`}
+                      style={{ borderRadius: '12px' }}
+                    >
+                      <highlight.icon className="h-3 w-3 sm:h-4 sm:w-4" />
+                    </div>
+                    <div>
+                      <h5 className="text-xs sm:text-sm font-medium text-blue-400">
+                        {highlight.title}
+                      </h5>
+                      <p className="text-xs text-slate-400">
+                        {highlight.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        <style>{`
-          @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-          }
-        `}</style>
-      </section>
-    </>
+        {/* Enhanced Call-to-Action */}
+        <div className={`text-center transition-all duration-800 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div 
+            className="bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 p-4 sm:p-6 md:p-8"
+            style={{ borderRadius: '24px' }}
+          >
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-400 mb-2 sm:mb-3 md:mb-4">
+              Ready to Contribute to Your Team
+            </h3>
+            <p className="text-sm sm:text-base md:text-lg text-slate-300 mb-4 sm:mb-6 max-w-2xl mx-auto">
+              I am actively seeking opportunities to apply my skills in cloud computing and DevOps. 
+              Let's discuss how I can add value to your organization.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+              <a
+                href="mailto:praveen.dev.cloud@gmail.com"
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-blue-500 hover:to-cyan-500 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                style={{ borderRadius: '25px' }}
+              >
+                Contact Me
+              </a>
+              <a
+                href="/Praveen A-Resume.pdf"
+                target="_blank"
+                className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-slate-900 font-semibold px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base transition-all duration-300 transform hover:scale-105"
+                style={{ borderRadius: '25px' }}
+              >
+                View Resume
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 

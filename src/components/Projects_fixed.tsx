@@ -1,17 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { 
   ExternalLink, 
-  Github, 
-  Cloud, 
   Server, 
-  Database, 
-  Shield,
   Monitor,
   Zap,
-  ArrowRight,
   Star
 } from 'lucide-react';
-import { useMobile } from '../hooks/use-mobile';
 
 // Mock Button component for demonstration
 const Button = ({ children, variant, size, className, onClick, ...props }) => (
@@ -25,49 +19,60 @@ const Button = ({ children, variant, size, className, onClick, ...props }) => (
 );
 
 // Enhanced FloatingParticles component with minimal animation
-const FloatingParticles = ({ particleCount, className }) => (
-  <div className={className}>
-    {[...Array(particleCount)].map((_, i) => (
-      <div
-        key={i}
-        className="absolute rounded-full opacity-40"
-        style={{
-          width: `${2 + Math.random() * 3}px`,
-          height: `${2 + Math.random() * 3}px`,
-          backgroundColor: i % 3 === 0 ? '#3b82f6' : i % 3 === 1 ? '#8b5cf6' : '#06b6d4',
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-          animation: `float ${8 + Math.random() * 12}s ease-in-out infinite`,
-          animationDelay: `${Math.random() * 5}s`
-        }}
-      />
-    ))}
-  </div>
-);
+const FloatingParticles = ({ particleCount, className }) => {
+  const colors = ['#3b82f6', '#8b5cf6', '#06b6d4'];
+  
+  return (
+    <div className={className}>
+      {[...Array(particleCount)].map((_, i) => {
+        const colorIndex = i % colors.length;
+        return (
+          <div
+            key={`particle-${i}-${colorIndex}`}
+            className="absolute rounded-full opacity-40"
+            style={{
+              width: `${2 + Math.random() * 3}px`,
+              height: `${2 + Math.random() * 3}px`,
+              backgroundColor: colors[colorIndex],
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animation: `float ${8 + Math.random() * 12}s ease-in-out infinite`,
+              animationDelay: `${Math.random() * 5}s`
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
-// GeometricShapes component
-const GeometricShapes = ({ shapeCount = 10 }) => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {[...Array(shapeCount)].map((_, i) => (
-      <div
-        key={i}
-        className={`absolute opacity-10 ${
-          i % 3 === 0 ? 'w-8 h-8' : i % 3 === 1 ? 'w-6 h-6' : 'w-4 h-4'
-        } ${
-          i % 4 === 0 ? 'bg-blue-500' : i % 4 === 1 ? 'bg-purple-500' : i % 4 === 2 ? 'bg-cyan-500' : 'bg-green-500'
-        } ${
-          i % 2 === 0 ? 'rounded-full' : 'rotate-45'
-        }`}
-        style={{
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-          animationDuration: `${4 + Math.random() * 6}s`,
-          animationDelay: `${Math.random() * 3}s`
-        }}
-      />
-    ))}
-  </div>
-);
+// Minimal GeometricShapes component
+const GeometricShapes = ({ shapeCount }) => {
+  const shapeColors = ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981'];
+  
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(shapeCount)].map((_, i) => {
+        const colorIndex = i % shapeColors.length;
+        return (
+          <div
+            key={`shape-${i}-${colorIndex}`}
+            className={`absolute opacity-20 ${i % 2 === 0 ? 'rounded-full' : 'rotate-45'}`}
+            style={{
+              width: `${4 + Math.random() * 8}px`,
+              height: `${4 + Math.random() * 8}px`,
+              backgroundColor: shapeColors[colorIndex],
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animation: `drift ${15 + Math.random() * 25}s ease-in-out infinite`,
+              animationDelay: `${Math.random() * 8}s`
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 // Type definitions for analytics
 declare global {
@@ -83,10 +88,14 @@ declare global {
 const Projects = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-  const [activeProject, setActiveProject] = useState(null);
-  const { isMobile } = useMobile();
-  const sectionRef = useRef(null);
-  
+  const [isMobile, setIsMobile] = useState(false);
+  const [activeProject, setActiveProject] = useState<number | null>(null);
+
+  // Enhanced mobile detection with breakpoint optimization
+  const checkMobile = useCallback(() => {
+    const width = window.innerWidth;
+    setIsMobile(width < 768);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -95,17 +104,31 @@ const Projects = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1, rootMargin: '100px' }
+      { threshold: 0.2, rootMargin: '50px' }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const element = document.getElementById('projects');
+    if (element) {
+      observer.observe(element);
     }
 
-    return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    // Enhanced scroll progress tracking - removed to optimize performance
+    const handleScroll = () => {
+      // Scroll tracking removed for better performance
     };
-  }, []); 
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [checkMobile]);
 
   const projects = [
     {
@@ -185,7 +208,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="py-8 sm:py-12 md:py-16 relative overflow-hidden bg-black min-h-screen">
+    <section id="projects" className="py-8 sm:py-12 md:py-16 relative overflow-hidden bg-black min-h-screen transition-all duration-700 animate-fade-in-up">
       {/* Minimal Background Effects */}
       {!isMobile && <GeometricShapes shapeCount={6} />}
       <FloatingParticles 
@@ -196,16 +219,82 @@ const Projects = () => {
       {/* ENHANCED: Perfect Circular Background Elements with Modern Blur Effects */}
       <div className="absolute inset-0 opacity-10">
         {/* Primary Blue Orb - Perfect Circle with Modern Blur */}
-        <div className="absolute top-20 left-20 w-80 h-80 bg-blue-500/30 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }}></div>
+        <div 
+          className="absolute top-8 sm:top-16 left-8 sm:left-16 bg-blue-500/30 animate-pulse"
+          style={{
+            width: 'clamp(128px, 20vw, 256px)',
+            height: 'clamp(128px, 20vw, 256px)',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.4), rgba(59, 130, 246, 0.1))',
+            filter: 'blur(40px)',
+            transform: 'translateZ(0)', // Hardware acceleration
+            backfaceVisibility: 'hidden',
+          }}
+        />
         
-        {/* Secondary Cyan Orb - Perfect Circle with Modern Blur */}
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }}></div>
+        {/* Secondary Purple Orb - Perfect Circle */}
+        <div 
+          className="absolute bottom-8 sm:bottom-16 right-8 sm:right-16 bg-purple-500/25 animate-pulse"
+          style={{
+            width: 'clamp(112px, 18vw, 224px)',
+            height: 'clamp(112px, 18vw, 224px)',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 70% 70%, rgba(147, 51, 234, 0.35), rgba(147, 51, 234, 0.08))',
+            filter: 'blur(35px)',
+            animationDelay: '3s',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+          }}
+        />
         
-        {/* Tertiary Purple Orb - Perfect Circle with Modern Blur */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }}></div>
+        {/* Center Accent Orb - Perfect Circle */}
+        <div 
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-cyan-500/20 animate-pulse"
+          style={{
+            width: 'clamp(96px, 15vw, 192px)',
+            height: 'clamp(96px, 15vw, 192px)',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.3), rgba(34, 211, 238, 0.05))',
+            filter: 'blur(32px)',
+            animationDelay: '1.5s',
+            transform: 'translate(-50%, -50%) translateZ(0)',
+            backfaceVisibility: 'hidden',
+          }}
+        />
+
+        {/* Additional Floating Orbs for Enhanced Depth */}
+        <div 
+          className="absolute top-1/4 right-1/4 bg-emerald-500/15 animate-pulse"
+          style={{
+            width: 'clamp(64px, 12vw, 128px)',
+            height: 'clamp(64px, 12vw, 128px)',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.25), rgba(16, 185, 129, 0.05))',
+            filter: 'blur(28px)',
+            animationDelay: '2.5s',
+            animationDuration: '4s',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+          }}
+        />
+        
+        <div 
+          className="absolute bottom-1/4 left-1/4 bg-rose-500/15 animate-pulse"
+          style={{
+            width: 'clamp(80px, 14vw, 160px)',
+            height: 'clamp(80px, 14vw, 160px)',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 60% 40%, rgba(244, 63, 94, 0.25), rgba(244, 63, 94, 0.05))',
+            filter: 'blur(30px)',
+            animationDelay: '4s',
+            animationDuration: '5s',
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+          }}
+        />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 relative z-10">
         {/* Section Header */}
         <div className={`text-center mb-6 sm:mb-8 md:mb-12 transition-all duration-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
@@ -221,7 +310,7 @@ const Projects = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
           {projects.map((project, index) => (
             <div
-              key={index}
+              key={project.title}
               className={`bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 overflow-hidden transition-all duration-500 cursor-pointer group ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
               } ${hoveredProject === index ? 'scale-[1.02] translate-y-[-4px] shadow-xl border-slate-600/70' : 'hover:scale-[1.01] hover:shadow-lg'} ${
@@ -325,7 +414,7 @@ const Projects = () => {
                   <h4 className="text-xs font-semibold text-blue-400 mb-1.5 sm:mb-2">Key Achievements</h4>
                   <div className="space-y-1">
                     {project.highlights.slice(0, isMobile ? 1 : 2).map((highlight, hIndex) => (
-                      <div key={hIndex} className="flex items-start space-x-1.5">
+                      <div key={`${project.title}-highlight-${hIndex}`} className="flex items-start space-x-1.5">
                         <div className="w-1 h-1 bg-cyan-400 mt-1.5 flex-shrink-0" style={{ borderRadius: '50%' }} />
                         <p className="text-xs text-slate-400 leading-relaxed">{highlight}</p>
                       </div>
@@ -353,14 +442,15 @@ const Projects = () => {
                   <h4 className="text-xs font-semibold text-blue-400 mb-1.5">Tech Stack</h4>
                   <div className="flex flex-wrap gap-1">
                     {project.technologies.slice(0, isMobile ? 2 : 3).map((tech, tIndex) => (
-                      <span
-                        key={tIndex}
+                      <button
+                        key={`${project.title}-tech-${tech}`}
                         className="px-1.5 sm:px-2 py-0.5 bg-slate-700/50 text-slate-300 text-xs font-medium hover:bg-slate-600/50 hover:text-cyan-400 transition-colors duration-200"
                         style={{ borderRadius: '12px' }} // Perfect rounded tags
                         onClick={(e) => e.stopPropagation()}
+                        type="button"
                       >
                         {tech}
-                      </span>
+                      </button>
                     ))}
                     {isMobile && project.technologies.length > 2 && (
                       <span 

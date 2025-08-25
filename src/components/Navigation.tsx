@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Home, User, Code, GraduationCap, FolderOpen, Users, Mail, Download } from 'lucide-react';
+import { Menu, X, Home, User, Code, GraduationCap, FolderOpen, Users } from 'lucide-react';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,70 +63,44 @@ const Navigation = () => {
   }, [isOpen]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-xl border-b border-slate-700/50 shadow-lg transition-all duration-300">
+  <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-slate-700/50 transition-all duration-700 animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 lg:h-18">
-          {/* Enhanced Logo */}
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
           <div className="flex-shrink-0">
-            <button 
-              onClick={() => scrollToSection('hero')}
-              className="text-design-xl sm:text-design-2xl font-design-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 focus-ring"
-            >
+            <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               PRAVEEN A
-            </button>
+            </span>
           </div>
 
-          {/* Enhanced Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            <div className="flex items-center space-x-1">
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-4">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`relative px-3 lg:px-4 py-2 text-design-sm font-design-medium rounded-lg transition-all duration-300 focus-ring touch-target ${
+                  className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
                     activeSection === item.id
-                      ? 'text-cyan-400 bg-slate-800/50'
-                      : 'text-slate-300 hover:text-cyan-400 hover:bg-slate-800/30'
+                      ? 'text-violet-400'
+                      : 'text-slate-300 hover:text-violet-400'
                   }`}
                 >
                   {item.label}
                   {activeSection === item.id && (
-                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-violet-400 to-pink-400 rounded-full"></div>
                   )}
                 </button>
               ))}
             </div>
-            
-            {/* CTA Buttons */}
-            <div className="flex items-center space-x-2 ml-4 lg:ml-6">
-              <a
-                href="mailto:praveen.dev.cloud@gmail.com"
-                className="inline-flex items-center px-3 lg:px-4 py-2 text-design-xs lg:text-design-sm font-design-medium text-slate-300 hover:text-white bg-slate-800/50 hover:bg-slate-700/70 rounded-lg transition-all duration-300 focus-ring touch-target"
-                aria-label="Send email to Praveen A"
-              >
-                <Mail className="h-4 w-4 mr-1.5" />
-                Contact
-              </a>
-              <a
-                href="/Praveen A-Resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-3 lg:px-4 py-2 text-design-xs lg:text-design-sm font-design-semibold text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-blue-500 hover:to-cyan-500 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus-ring touch-target"
-                aria-label="Download Praveen A's resume"
-              >
-                <Download className="h-4 w-4 mr-1.5" />
-                Resume
-              </a>
-            </div>
           </div>
 
-          {/* Enhanced Mobile menu button */}
+          {/* Mobile menu button */}
           <div className="md:hidden mobile-menu-container">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50 transition-all duration-300 touch-target focus-ring"
+              className="inline-flex items-center justify-center p-2 rounded-md text-slate-300 hover:text-violet-400 hover:bg-slate-800/50 transition-colors duration-300 touch-manipulation"
               aria-label="Toggle mobile menu"
-              aria-expanded={isOpen}
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -137,58 +111,36 @@ const Navigation = () => {
       {/* Enhanced Mobile Navigation */}
       {isOpen && (
         <div className="md:hidden mobile-menu-container">
-          <div className="bg-slate-900/98 backdrop-blur-xl border-t border-slate-700/50 shadow-2xl animate-slide-down">
+          <div className="bg-slate-900/95 backdrop-blur-md border-t border-slate-700/50 animate-slide-down">
             <div className="px-4 py-6 space-y-2">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`flex items-center space-x-3 w-full px-4 py-3 text-left transition-all duration-300 rounded-xl touch-target focus-ring ${
+                  className={`flex items-center space-x-3 w-full px-4 py-3 text-left transition-all duration-300 rounded-xl touch-manipulation ${
                     activeSection === item.id
-                      ? 'text-cyan-400 bg-cyan-500/10 border-l-4 border-cyan-400'
-                      : 'text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50'
+                      ? 'text-violet-400 bg-violet-500/10 border-l-4 border-violet-400'
+                      : 'text-slate-300 hover:text-violet-400 hover:bg-slate-800/50'
                   }`}
-                  style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <item.icon className="h-5 w-5 flex-shrink-0" />
-                  <span className="font-design-medium text-design-base">{item.label}</span>
+                  <span className="font-medium text-base">{item.label}</span>
                   {activeSection === item.id && (
-                    <div className="ml-auto w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                    <div className="ml-auto w-2 h-2 bg-violet-400 rounded-full animate-pulse"></div>
                   )}
                 </button>
               ))}
             </div>
             
-            {/* Enhanced Mobile CTA Section */}
+            {/* Mobile menu footer */}
             <div className="px-4 py-4 border-t border-slate-700/50">
-              <div className="space-y-3">
-                <div className="flex space-x-2">
-                  <a
-                    href="mailto:praveen.dev.cloud@gmail.com"
-                    className="flex-1 inline-flex items-center justify-center px-4 py-2.5 text-design-sm font-design-medium text-slate-300 hover:text-white bg-slate-800/50 hover:bg-slate-700/70 rounded-lg transition-all duration-300 focus-ring touch-target"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <Mail className="h-4 w-4 mr-2" />
-                    Contact Me
-                  </a>
-                  <a
-                    href="/Praveen A-Resume.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center px-4 py-2.5 text-design-sm font-design-semibold text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg shadow-lg transition-all duration-300 focus-ring touch-target"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <Download className="h-4 w-4 mr-2" />
-                    Resume
-                  </a>
-                </div>
-                
-                {/* Status indicator */}
-                <div className="text-center pt-2">
-                  <div className="flex justify-center items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-design-xs text-slate-400 font-design-medium">Available for opportunities</span>
-                  </div>
+              <div className="text-center">
+                <p className="text-sm text-slate-400">
+                  Available for opportunities
+                </p>
+                <div className="flex justify-center space-x-2 mt-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-slate-500">Open to work</span>
                 </div>
               </div>
             </div>
@@ -200,7 +152,7 @@ const Navigation = () => {
         @keyframes slide-down {
           from {
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translateY(-10px);
           }
           to {
             opacity: 1;
@@ -209,21 +161,7 @@ const Navigation = () => {
         }
         
         .animate-slide-down {
-          animation: slide-down 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        /* Enhanced mobile menu item animations */
-        .mobile-menu-container button {
-          animation: mobile-slide-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-          opacity: 0;
-          transform: translateX(-20px);
-        }
-        
-        @keyframes mobile-slide-in {
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+          animation: slide-down 0.2s ease-out;
         }
       `}</style>
     </nav>

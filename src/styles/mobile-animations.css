@@ -1,17 +1,19 @@
-/* Mobile-specific scroll animations and transitions */
+/* Mobile-specific scroll animations and transitions - Black theme optimized */
 
-/* Base mobile animation classes */
+/* Base mobile animation classes with enhanced contrast */
 .mobile-scroll-reveal {
   opacity: 0;
   transform: translateY(60px) scale(0.9);
   filter: blur(8px);
   transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .mobile-scroll-reveal.revealed {
   opacity: 1;
   transform: translateY(0) scale(1);
   filter: blur(0px);
+  color: rgba(255, 255, 255, 1);
 }
 
 /* Stagger animation for mobile cards */

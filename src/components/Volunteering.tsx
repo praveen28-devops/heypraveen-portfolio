@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useMobile } from '../hooks/use-mobile';
 import { 
   Users, 
   Award, 
@@ -72,8 +71,7 @@ const GeometricShapes = ({ shapeCount = 10 }) => {
 
 const Volunteering = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const { isMobile } = useMobile();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -82,23 +80,29 @@ const Volunteering = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1, rootMargin: '100px' }
+      { threshold: 0.3 }
     );
 
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    const sectionRef = document.getElementById('volunteering');
-    if (sectionRef) {
-      observer.observe(sectionRef);
+    const element = document.getElementById('volunteering');
+    if (element) {
+      observer.observe(element);
     }
 
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     return () => {
-      if (sectionRef) observer.unobserve(sectionRef);
-      window.removeEventListener('scroll', handleScroll);
+      if (element) {
+        observer.unobserve(element);
+      }
+      window.removeEventListener('resize', checkMobile);
     };
   }, []);
-
 
   const volunteeringExperience = [
     {
@@ -133,7 +137,7 @@ const Volunteering = () => {
   ];
 
   return (
-    <section id="volunteering" className="py-12 sm:py-16 md:py-20 relative overflow-hidden bg-black">
+    <section id="volunteering" className="py-12 sm:py-16 md:py-20 relative overflow-hidden bg-black transition-all duration-700 animate-fade-in-up">
       {/* Animated Background Effects */}
       {!isMobile && <GeometricShapes shapeCount={8} />}
       <FloatingParticles 
@@ -141,26 +145,14 @@ const Volunteering = () => {
         colors={['#8b5cf6', '#ec4899', '#06b6d4', '#f97316']}
       />
       
-      {/* Parallax Background Elements */}
+      {/* Background Elements - Enhanced for animations */}
       <div className="absolute inset-0 opacity-5 sm:opacity-10">
-        <div 
-          className="absolute top-10 sm:top-20 right-10 sm:right-20 w-40 h-40 sm:w-80 sm:h-80 bg-purple-500/30 rounded-full blur-2xl sm:blur-3xl"
-          style={{ transform: `translateY(${scrollY * 0.1}px)` }}
-        ></div>
-        <div 
-          className="absolute bottom-10 sm:bottom-20 left-10 sm:left-20 w-32 h-32 sm:w-64 sm:h-64 bg-pink-500/20 rounded-full blur-2xl sm:blur-3xl"
-          style={{ transform: `translateY(${scrollY * 0.15}px)` }}
-        ></div>
-        <div 
-          className="absolute top-1/2 right-1/4 w-28 h-28 sm:w-56 sm:h-56 bg-orange-500/15 rounded-full blur-3xl"
-          style={{ transform: `translateY(${scrollY * 0.08}px)` }}
-        ></div>
+        <div className="absolute top-10 sm:top-20 right-10 sm:right-20 w-40 h-40 sm:w-80 sm:h-80 bg-purple-500/30 rounded-full blur-2xl sm:blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-10 sm:bottom-20 left-10 sm:left-20 w-48 h-48 sm:w-96 sm:h-96 bg-cyan-500/20 rounded-full blur-2xl sm:blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute top-1/3 right-1/3 w-32 h-32 sm:w-64 sm:h-64 bg-pink-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
-      <div 
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
-        style={{ transform: `translateY(${scrollY * 0.03}px)` }}
-      >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className={`text-center mb-8 sm:mb-12 md:mb-16 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-[clamp(1.75rem,6vw,3rem)] sm:text-[clamp(2rem,6vw,3.5rem)] md:text-[clamp(3rem,6vw,4rem)] lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">

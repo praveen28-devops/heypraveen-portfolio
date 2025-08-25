@@ -127,7 +127,7 @@ const Leadership = () => {
   ];
 
   return (
-    <section id="leadership" className="py-12 sm:py-16 md:py-20 relative overflow-hidden">
+    <section id="leadership" className="py-12 sm:py-16 md:py-20 relative overflow-hidden bg-black transition-all duration-700 animate-fade-in-up">
       {/* Background Elements - Simplified for mobile */}
       <div className="absolute inset-0 opacity-5 sm:opacity-10">
         <div className="absolute top-10 sm:top-20 right-10 sm:right-20 w-40 h-40 sm:w-80 sm:h-80 bg-neon-purple/30 rounded-full blur-2xl sm:blur-3xl floating-card"></div>

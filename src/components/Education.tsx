@@ -33,6 +33,7 @@ const GeometricShapes = ({ shapeCount = 10 }) => {
   );
 };
 
+
 const FloatingParticles = ({ particleCount = 30, colors = ['#3b82f6', '#8b5cf6', '#06b6d4'] }) => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -60,9 +61,6 @@ const FloatingParticles = ({ particleCount = 30, colors = ['#3b82f6', '#8b5cf6',
     </div>
   );
 };
-
-
-
 
 const Education = () => {
   const [flippedCards, setFlippedCards] = useState([]);
@@ -186,7 +184,7 @@ const Education = () => {
     <section 
       ref={sectionTransition.ref}
       id="education" 
-      className={`py-12 sm:py-16 md:py-20 relative overflow-hidden bg-black transition-all duration-1000 ${
+      className={`py-12 sm:py-16 md:py-20 relative overflow-hidden bg-black transition-all duration-1000 animate-fade-in-up ${
         sectionTransition.isActive ? 'section-active' : ''
       }`}
     >
@@ -208,7 +206,7 @@ const Education = () => {
         {/* Section Header */}
         <div 
           ref={headerAnimation.ref}
-          className={`text-center mb-6 sm:mb-8 md:mb-10 transition-all duration-1000 ${
+          className={`text-center mb-8 sm:mb-12 md:mb-16 transition-all duration-1000 ${
             headerAnimation.isVisible 
               ? isMobile 
                 ? 'animate-mobile-scroll-reveal opacity-100' 
@@ -223,10 +221,10 @@ const Education = () => {
         </div>
 
         {/* Education Section */}
-        <div className="mb-8 sm:mb-10 md:mb-12">
+        <div className="mb-12 sm:mb-16 md:mb-20">
           <h3 
             ref={educationSectionAnimation.ref}
-            className={`text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6 text-white transition-all duration-1000 delay-300 ${
+            className={`text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8 text-white transition-all duration-1000 delay-300 ${
               educationSectionAnimation.isVisible 
                 ? isMobile 
                   ? 'animate-mobile-slide-left opacity-100' 
@@ -294,10 +292,10 @@ const Education = () => {
         </div>
 
         {/* Certifications Section */}
-        <div className="min-h-fit">
+        <div>
           <h3 
             ref={certificationAnimation.ref}
-            className={`text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6 text-white transition-all duration-1000 delay-700 ${
+            className={`text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8 text-white transition-all duration-1000 delay-700 ${
               certificationAnimation.isVisible 
                 ? isMobile 
                   ? 'animate-mobile-slide-right opacity-100' 
