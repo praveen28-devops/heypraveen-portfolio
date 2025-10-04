@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Menu, X, Home, User, Code, GraduationCap, FolderOpen, Users } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import ResumeActions from './ResumeActions';
@@ -8,14 +8,14 @@ const Navigation = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const location = useLocation();
 
-  const navItems = [
+  const navItems = useMemo(() => [
     { id: 'hero', label: 'Home', icon: Home, path: '/' },
     { id: 'summary', label: 'Summary', icon: User, path: '/' },
     { id: 'skills', label: 'Skills', icon: Code, path: '/' },
     { id: 'education', label: 'Education', icon: GraduationCap, path: '/' },
     { id: 'projects', label: 'Projects', icon: FolderOpen, path: '/' },
     { id: 'volunteering', label: 'Volunteering', icon: Users, path: '/' }
-  ];
+  ], []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,7 +33,7 @@ const Navigation = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [navItems]);
 
   const scrollToSection = (sectionId: string, path: string) => {
     if (path !== '/') {

@@ -3,7 +3,7 @@ import FloatingParticles from './FloatingParticles';
 import ResumeActions from './ResumeActions';
 import AnimatedHeroBackground from './AnimatedHeroBackground';
 
-const LinkedInSvg = (props: any) => (
+const LinkedInSvg = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
     <line x1="16" y1="11" x2="16" y2="16" />

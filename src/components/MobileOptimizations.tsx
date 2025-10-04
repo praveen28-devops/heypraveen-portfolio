@@ -15,7 +15,7 @@ const MobileOptimizations: React.FC<MobileOptimizationsProps> = ({ children }) =
       document.body.style.overscrollBehavior = 'none';
       
       // Optimize scrolling performance
-      (document.body.style as any).webkitOverflowScrolling = 'touch';
+      (document.body.style as CSSStyleDeclaration & { webkitOverflowScrolling?: string }).webkitOverflowScrolling = 'touch';
       
       // Enable hardware acceleration for smoother animations
       document.body.style.transform = 'translateZ(0)';
@@ -39,7 +39,7 @@ const MobileOptimizations: React.FC<MobileOptimizationsProps> = ({ children }) =
 
       return () => {
         document.body.style.overscrollBehavior = '';
-        (document.body.style as any).webkitOverflowScrolling = '';
+        (document.body.style as CSSStyleDeclaration & { webkitOverflowScrolling?: string }).webkitOverflowScrolling = '';
         document.body.style.transform = '';
         document.body.style.backfaceVisibility = '';
         

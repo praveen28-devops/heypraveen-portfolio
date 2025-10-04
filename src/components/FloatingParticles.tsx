@@ -16,6 +16,25 @@ interface Particle {
   maxLife: number;
 }
 
+interface BatteryManager extends EventTarget {
+  level: number;
+  charging: boolean;
+  chargingTime: number;
+  dischargingTime: number;
+}
+
+interface NavigatorWithBattery extends Navigator {
+  getBattery?: () => Promise<BatteryManager>;
+}
+
+interface NetworkInformation extends EventTarget {
+  effectiveType?: string;
+}
+
+interface NavigatorWithConnection extends Navigator {
+  connection?: NetworkInformation;
+}
+
 interface FloatingParticlesProps {
   particleCount?: number;
   colors?: string[];
@@ -89,7 +108,7 @@ const FloatingParticles = ({
 
     // Battery API support
     if ('getBattery' in navigator) {
-      (navigator as any).getBattery().then((battery: any) => {
+      (navigator as NavigatorWithBattery).getBattery?.().then((battery: BatteryManager) => {
         deviceRef.current.batteryLevel = battery.level;
         battery.addEventListener('levelchange', () => {
           deviceRef.current.batteryLevel = battery.level;
@@ -99,11 +118,11 @@ const FloatingParticles = ({
 
     // Network Information API
     if ('connection' in navigator) {
-      const connection = (navigator as any).connection;
-      deviceRef.current.connectionType = connection.effectiveType || 'unknown';
+      const connection = (navigator as NavigatorWithConnection).connection;
+      deviceRef.current.connectionType = connection?.effectiveType || 'unknown';
       
-      connection.addEventListener('change', () => {
-        deviceRef.current.connectionType = connection.effectiveType || 'unknown';
+      connection?.addEventListener('change', () => {
+        deviceRef.current.connectionType = connection?.effectiveType || 'unknown';
       });
     }
 

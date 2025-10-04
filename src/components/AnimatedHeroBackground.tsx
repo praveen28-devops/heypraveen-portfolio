@@ -9,9 +9,11 @@ const AnimatedHeroBackground: React.FC<AnimatedHeroBackgroundProps> = ({ classNa
   const particlesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const particlesContainer = particlesRef.current;
+    
     // Create floating particles
     const createParticles = () => {
-      if (!particlesRef.current) return;
+      if (!particlesContainer) return;
       
       const particleCount = window.innerWidth < 768 ? 15 : 30;
       
@@ -21,7 +23,7 @@ const AnimatedHeroBackground: React.FC<AnimatedHeroBackgroundProps> = ({ classNa
         particle.style.left = Math.random() * 100 + '%';
         particle.style.animationDelay = Math.random() * 20 + 's';
         particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-        particlesRef.current.appendChild(particle);
+        particlesContainer.appendChild(particle);
       }
     };
 
@@ -29,8 +31,8 @@ const AnimatedHeroBackground: React.FC<AnimatedHeroBackgroundProps> = ({ classNa
 
     // Cleanup on unmount
     return () => {
-      if (particlesRef.current) {
-        particlesRef.current.innerHTML = '';
+      if (particlesContainer) {
+        particlesContainer.innerHTML = '';
       }
     };
   }, []);
