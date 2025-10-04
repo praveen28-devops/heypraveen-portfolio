@@ -1,37 +1,37 @@
-import React from 'react';
-import { Download, Eye } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React from "react";
+import { Download, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ResumeActionsProps {
-  variant?: 'default' | 'compact' | 'inline';
+  variant?: "default" | "compact" | "inline";
   showViewButton?: boolean;
   showDownloadButton?: boolean;
   className?: string;
 }
 
 const ResumeActions: React.FC<ResumeActionsProps> = ({
-  variant = 'default',
+  variant = "default",
   showViewButton = true,
   showDownloadButton = true,
-  className = ''
+  className = "",
 }) => {
-  const resumePath = '/Praveen A-Resume.pdf';
+  const resumePath = "/Praveen A-Resume.pdf";
 
   const handleDownload = () => {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = resumePath;
-    link.download = 'Praveen A-Resume.pdf';
+    link.download = "Praveen A-Resume.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   const handleView = () => {
-    window.open(resumePath, '_blank');
+    window.open(resumePath, "_blank");
   };
 
   // Compact variant for smaller spaces
-  if (variant === 'compact') {
+  if (variant === "compact") {
     return (
       <div className={`flex items-center gap-2 ${className}`}>
         {showDownloadButton && (
@@ -60,7 +60,7 @@ const ResumeActions: React.FC<ResumeActionsProps> = ({
   }
 
   // Inline variant for text integration
-  if (variant === 'inline') {
+  if (variant === "inline") {
     return (
       <span className={`inline-flex items-center gap-2 ${className}`}>
         {showDownloadButton && (
@@ -72,7 +72,9 @@ const ResumeActions: React.FC<ResumeActionsProps> = ({
             Download Resume
           </button>
         )}
-        {showViewButton && showDownloadButton && <span className="text-slate-500">|</span>}
+        {showViewButton && showDownloadButton && (
+          <span className="text-slate-500">|</span>
+        )}
         {showViewButton && (
           <button
             onClick={handleView}
@@ -88,7 +90,9 @@ const ResumeActions: React.FC<ResumeActionsProps> = ({
 
   // Default variant
   return (
-    <div className={`flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 ${className}`}>
+    <div
+      className={`flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 ${className}`}
+    >
       {showDownloadButton && (
         <Button
           onClick={handleDownload}
@@ -98,7 +102,7 @@ const ResumeActions: React.FC<ResumeActionsProps> = ({
           Download Resume
         </Button>
       )}
-      
+
       {showViewButton && (
         <Button
           onClick={handleView}

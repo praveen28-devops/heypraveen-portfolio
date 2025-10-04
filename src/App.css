@@ -1,7 +1,8 @@
 /* Global black background and animation utilities */
-body, #root {
+body,
+#root {
   background: #000 !important;
-  transition: background 0.7s cubic-bezier(0.4,0,0.2,1);
+  transition: background 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   color: white;
 }
 
@@ -57,19 +58,19 @@ body, #root {
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 1s cubic-bezier(0.4,0,0.2,1) both;
+  animation: fade-in-up 1s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 .animate-fade-in {
-  animation: fade-in-up 1.2s cubic-bezier(0.4,0,0.2,1) both;
+  animation: fade-in-up 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 .animate-fade-in-scale {
-  animation: fade-in-scale 1s cubic-bezier(0.4,0,0.2,1) both;
+  animation: fade-in-scale 1s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 .animate-slide-in-left {
-  animation: slide-in-left 0.8s cubic-bezier(0.4,0,0.2,1) both;
+  animation: slide-in-left 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 .animate-slide-in-right {
-  animation: slide-in-right 0.8s cubic-bezier(0.4,0,0.2,1) both;
+  animation: slide-in-right 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 /* Mobile-responsive animations */
@@ -79,7 +80,7 @@ body, #root {
   .animate-fade-in-scale {
     animation-duration: 0.8s;
   }
-  
+
   .animate-slide-in-left,
   .animate-slide-in-right {
     animation-duration: 0.6s;

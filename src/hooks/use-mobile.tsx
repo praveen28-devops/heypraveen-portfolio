@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface MobileState {
   isMobile: boolean;
@@ -6,7 +6,7 @@ interface MobileState {
   isDesktop: boolean;
   screenWidth: number;
   screenHeight: number;
-  orientation: 'portrait' | 'landscape';
+  orientation: "portrait" | "landscape";
 }
 
 export const useMobile = (): MobileState => {
@@ -16,21 +16,21 @@ export const useMobile = (): MobileState => {
     isDesktop: false,
     screenWidth: 0,
     screenHeight: 0,
-    orientation: 'portrait'
+    orientation: "portrait",
   });
 
   useEffect(() => {
     const updateMobileState = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      
+
       setMobileState({
         isMobile: width < 768,
         isTablet: width >= 768 && width < 1024,
         isDesktop: width >= 1024,
         screenWidth: width,
         screenHeight: height,
-        orientation: width > height ? 'landscape' : 'portrait'
+        orientation: width > height ? "landscape" : "portrait",
       });
     };
 
@@ -38,13 +38,13 @@ export const useMobile = (): MobileState => {
     updateMobileState();
 
     // Add event listeners
-    window.addEventListener('resize', updateMobileState);
-    window.addEventListener('orientationchange', updateMobileState);
+    window.addEventListener("resize", updateMobileState);
+    window.addEventListener("orientationchange", updateMobileState);
 
     // Cleanup
     return () => {
-      window.removeEventListener('resize', updateMobileState);
-      window.removeEventListener('orientationchange', updateMobileState);
+      window.removeEventListener("resize", updateMobileState);
+      window.removeEventListener("orientationchange", updateMobileState);
     };
   }, []);
 
@@ -55,22 +55,26 @@ export const useMobile = (): MobileState => {
 export const useMobileOptimizations = () => {
   const { isMobile, isTablet } = useMobile();
 
-  const getResponsiveValue = <T,>(
-    mobile: T,
-    tablet: T,
-    desktop: T
-  ): T => {
+  const getResponsiveValue = <T,>(mobile: T, tablet: T, desktop: T): T => {
     if (isMobile) return mobile;
     if (isTablet) return tablet;
     return desktop;
   };
 
-  const getResponsiveSpacing = (mobile: number, tablet: number, desktop: number): string => {
+  const getResponsiveSpacing = (
+    mobile: number,
+    tablet: number,
+    desktop: number,
+  ): string => {
     const value = getResponsiveValue(mobile, tablet, desktop);
     return `${value}rem`;
   };
 
-  const getResponsiveFontSize = (mobile: string, tablet: string, desktop: string): string => {
+  const getResponsiveFontSize = (
+    mobile: string,
+    tablet: string,
+    desktop: string,
+  ): string => {
     return getResponsiveValue(mobile, tablet, desktop);
   };
 
@@ -79,7 +83,7 @@ export const useMobileOptimizations = () => {
     isTablet,
     getResponsiveValue,
     getResponsiveSpacing,
-    getResponsiveFontSize
+    getResponsiveFontSize,
   };
 };
 
@@ -96,7 +100,7 @@ export const useTouchInteractions = () => {
   const handleTouchEnd = () => {
     setIsTouching(false);
     const touchDuration = Date.now() - touchStartTime;
-    
+
     // Long press detection (optional)
     if (touchDuration > 500) {
       // Handle long press
@@ -106,7 +110,7 @@ export const useTouchInteractions = () => {
   return {
     isTouching,
     handleTouchStart,
-    handleTouchEnd
+    handleTouchEnd,
   };
 };
 
@@ -114,19 +118,22 @@ export const useTouchInteractions = () => {
 export const useMobilePerformance = () => {
   const { isMobile } = useMobile();
 
-  const shouldReduceAnimations = isMobile || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const shouldReduceAnimations =
+    isMobile || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const getAnimationDuration = (defaultDuration: number): number => {
     return shouldReduceAnimations ? defaultDuration * 0.5 : defaultDuration;
   };
 
   const getParticleCount = (defaultCount: number): number => {
-    return shouldReduceAnimations ? Math.floor(defaultCount * 0.3) : defaultCount;
+    return shouldReduceAnimations
+      ? Math.floor(defaultCount * 0.3)
+      : defaultCount;
   };
 
   return {
     shouldReduceAnimations,
     getAnimationDuration,
-    getParticleCount
+    getParticleCount,
   };
 };

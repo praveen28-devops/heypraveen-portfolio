@@ -31,11 +31,11 @@
   .mobile-scale-tap {
     transition: transform 0.1s ease-out;
   }
-  
+
   .mobile-scale-tap:active {
     transform: scale(0.95);
   }
-  
+
   /* Reduce motion for users who prefer it */
   @media (prefers-reduced-motion: reduce) {
     .mobile-scroll-reveal,
@@ -45,25 +45,25 @@
       transition: opacity 0.3s ease !important;
     }
   }
-  
+
   /* Enhanced mobile touch feedback */
   .touch-manipulation {
     -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2);
     touch-action: manipulation;
   }
-  
+
   /* Mobile-optimized blur effects */
   .mobile-blur-bg {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
-  
+
   /* Mobile scroll snap for sections */
   .mobile-scroll-snap {
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
   }
-  
+
   .mobile-scroll-snap > section {
     scroll-snap-align: start;
     scroll-snap-stop: always;
@@ -71,20 +71,44 @@
 }
 
 /* Animation delays for staggered effects */
-[data-stagger]:nth-child(1) { animation-delay: 0ms; }
-[data-stagger]:nth-child(2) { animation-delay: 100ms; }
-[data-stagger]:nth-child(3) { animation-delay: 200ms; }
-[data-stagger]:nth-child(4) { animation-delay: 300ms; }
-[data-stagger]:nth-child(5) { animation-delay: 400ms; }
-[data-stagger]:nth-child(6) { animation-delay: 500ms; }
+[data-stagger]:nth-child(1) {
+  animation-delay: 0ms;
+}
+[data-stagger]:nth-child(2) {
+  animation-delay: 100ms;
+}
+[data-stagger]:nth-child(3) {
+  animation-delay: 200ms;
+}
+[data-stagger]:nth-child(4) {
+  animation-delay: 300ms;
+}
+[data-stagger]:nth-child(5) {
+  animation-delay: 400ms;
+}
+[data-stagger]:nth-child(6) {
+  animation-delay: 500ms;
+}
 
 /* Mobile card animations */
-[data-cert-card]:nth-child(1) { animation-delay: 0ms; }
-[data-cert-card]:nth-child(2) { animation-delay: 100ms; }
-[data-cert-card]:nth-child(3) { animation-delay: 200ms; }
-[data-cert-card]:nth-child(4) { animation-delay: 300ms; }
-[data-cert-card]:nth-child(5) { animation-delay: 400ms; }
-[data-cert-card]:nth-child(6) { animation-delay: 500ms; }
+[data-cert-card]:nth-child(1) {
+  animation-delay: 0ms;
+}
+[data-cert-card]:nth-child(2) {
+  animation-delay: 100ms;
+}
+[data-cert-card]:nth-child(3) {
+  animation-delay: 200ms;
+}
+[data-cert-card]:nth-child(4) {
+  animation-delay: 300ms;
+}
+[data-cert-card]:nth-child(5) {
+  animation-delay: 400ms;
+}
+[data-cert-card]:nth-child(6) {
+  animation-delay: 500ms;
+}
 
 /* Performance optimizations for mobile */
 .animate-in {
@@ -101,7 +125,7 @@
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
     transition: box-shadow 0.3s ease;
   }
-  
+
   .mobile-glow:hover {
     box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
   }
