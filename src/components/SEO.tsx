@@ -14,31 +14,40 @@ const Seo = ({
   useEffect(() => {
     // Update document title
     document.title = title;
-    
-    // Update meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', description);
+
+    // Helper to update or create meta tags
+    const updateOrCreateMeta = (attr: string, value: string, content: string) => {
+      let meta = document.querySelector(`meta[${attr}="${value}"]`);
+      if (meta) {
+        meta.setAttribute('content', content);
+      } else {
+        meta = document.createElement('meta');
+        meta.setAttribute(attr, value);
+        meta.setAttribute('content', content);
+        document.head.appendChild(meta);
+      }
+    };
+
+    // Meta tags
+    updateOrCreateMeta('name', 'description', description);
+    updateOrCreateMeta('name', 'keywords', keywords);
+    updateOrCreateMeta('name', 'author', 'Praveen A');
+    updateOrCreateMeta('name', 'robots', 'index, follow');
+    updateOrCreateMeta('http-equiv', 'Content-Language', 'en');
+
+    // Canonical link
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      canonical.setAttribute('href', window.location.href);
+      document.head.appendChild(canonical);
     } else {
-      const meta = document.createElement('meta');
-      meta.name = 'description';
-      meta.content = description;
-      document.head.appendChild(meta);
-    }
-    
-    // Update meta keywords
-    const metaKeywords = document.querySelector('meta[name="keywords"]');
-    if (metaKeywords) {
-      metaKeywords.setAttribute('content', keywords);
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = 'keywords';
-      meta.content = keywords;
-      document.head.appendChild(meta);
+      canonical.setAttribute('href', window.location.href);
     }
 
-    // Add Open Graph tags
-    const updateOrCreateMeta = (property: string, content: string) => {
+    // Open Graph & Twitter tags
+    const updateOrCreateOG = (property: string, content: string) => {
       let meta = document.querySelector(`meta[property="${property}"]`);
       if (meta) {
         meta.setAttribute('content', content);
@@ -49,15 +58,40 @@ const Seo = ({
         document.head.appendChild(meta);
       }
     };
+    updateOrCreateOG('og:title', title);
+    updateOrCreateOG('og:description', description);
+    updateOrCreateOG('og:type', 'website');
+    updateOrCreateOG('og:image', '/profile-photo.png');
+    updateOrCreateOG('og:url', window.location.href);
+    updateOrCreateOG('og:site_name', 'Praveen A Portfolio');
+    updateOrCreateOG('twitter:card', 'summary_large_image');
+    updateOrCreateOG('twitter:title', title);
+    updateOrCreateOG('twitter:description', description);
+    updateOrCreateOG('twitter:image', '/profile-photo.png');
 
-    updateOrCreateMeta('og:title', title);
-    updateOrCreateMeta('og:description', description);
-    updateOrCreateMeta('og:type', 'website');
-    updateOrCreateMeta('og:image', '/profile-photo.png');
-    updateOrCreateMeta('twitter:card', 'summary_large_image');
-    updateOrCreateMeta('twitter:title', title);
-    updateOrCreateMeta('twitter:description', description);
-    updateOrCreateMeta('twitter:image', '/profile-photo.png');
+    // Structured Data (JSON-LD)
+    const scriptId = 'structured-data-jsonld';
+    let script = document.getElementById(scriptId);
+    if (script) script.remove();
+    script = document.createElement('script');
+    const scriptEl = script as HTMLScriptElement;
+    scriptEl.type = 'application/ld+json';
+    scriptEl.id = scriptId;
+    scriptEl.text = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Praveen A',
+      url: window.location.href,
+      image: '/profile-photo.png',
+      jobTitle: 'Cloud & DevOps Engineer',
+      description,
+      sameAs: [
+        'https://www.linkedin.com/in/praveen28/',
+        'https://github.com/praveen28-devops',
+        'https://heypraveen.me/'
+      ]
+    });
+    document.head.appendChild(scriptEl);
     
   }, [title, description, keywords]);
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Code, Cloud, Zap, Shield, Award, Target, Clock, Users } from 'lucide-react';
-import ResumeActions from './ResumeActions';
 
 const FloatingParticles = ({ particleCount, className, colors = [] }) => (
   <div className={className}>
@@ -131,6 +130,8 @@ const ProfessionalSummary = () => {
 
   return (
     <section id="summary" className="py-6 sm:py-8 md:py-12 lg:py-16 relative overflow-hidden bg-black min-h-screen transition-all duration-700 animate-fade-in-up">
+      {/* 3D Spline Object - Removed */}
+      
       {!isMobile && !isTablet && (
         <>
           <FloatingParticles 
@@ -314,31 +315,6 @@ const ProfessionalSummary = () => {
           </div>
         </div>
 
-        <div className={`text-center transition-all duration-800 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div 
-            className="bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 p-4 sm:p-6 md:p-8"
-            style={{ borderRadius: '24px' }}
-          >
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-400 mb-2 sm:mb-3 md:mb-4">
-              Ready to Contribute to Your Team
-            </h3>
-            <p className="text-sm sm:text-base md:text-lg text-slate-300 mb-4 sm:mb-6 max-w-2xl mx-auto">
-              I am actively seeking opportunities to apply my skills in cloud computing and DevOps. 
-              Let's discuss how I can add value to your organization.
-              <ResumeActions variant="inline" className="ml-4" />
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-              <a
-                href="mailto:praveen.dev.cloud@gmail.com"
-                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-blue-500 hover:to-cyan-500 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                style={{ borderRadius: '25px' }}
-              >
-                Contact Me
-              </a>
-              <ResumeActions variant="compact" />
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
