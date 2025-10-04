@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Home, User, Code, GraduationCap, FolderOpen, Users } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import ResumeActions from './ResumeActions';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const location = useLocation();
 
   const navItems = [
-    { id: 'hero', label: 'Home', icon: Home },
-    { id: 'summary', label: 'Summary', icon: User },
-    { id: 'skills', label: 'Skills', icon: Code },
-    { id: 'education', label: 'Education', icon: GraduationCap },
-    { id: 'projects', label: 'Projects', icon: FolderOpen },
-    { id: 'volunteering', label: 'Volunteering', icon: Users }
+    { id: 'hero', label: 'Home', icon: Home, path: '/' },
+    { id: 'summary', label: 'Summary', icon: User, path: '/' },
+    { id: 'skills', label: 'Skills', icon: Code, path: '/' },
+    { id: 'education', label: 'Education', icon: GraduationCap, path: '/' },
+    { id: 'projects', label: 'Projects', icon: FolderOpen, path: '/' },
+    { id: 'volunteering', label: 'Volunteering', icon: Users, path: '/' }
   ];
 
   useEffect(() => {
@@ -33,7 +35,12 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = (sectionId: string, path: string) => {
+    if (path !== '/') {
+      // Navigate to different page
+      return;
+    }
+    
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -69,29 +76,49 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <Link to="/" className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent tracking-wide" 
+                  style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
               PRAVEEN A
-            </span>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
-                    activeSection === item.id
-                      ? 'text-violet-400'
-                      : 'text-slate-300 hover:text-violet-400'
-                  }`}
-                >
-                  {item.label}
-                  {activeSection === item.id && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-violet-400 to-pink-400 rounded-full"></div>
-                  )}
-                </button>
+                item.path === '/' ? (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id, item.path)}
+                    className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
+                      activeSection === item.id && location.pathname === '/'
+                        ? 'text-violet-400'
+                        : 'text-slate-300 hover:text-violet-400'
+                    }`}
+                    style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
+                  >
+                    {item.label}
+                    {activeSection === item.id && location.pathname === '/' && (
+                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-violet-400 to-pink-400 rounded-full"></div>
+                    )}
+                  </button>
+                ) : (
+                  <Link
+                    key={item.id}
+                    to={item.path}
+                    className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
+                      location.pathname === item.path
+                        ? 'text-violet-400'
+                        : 'text-slate-300 hover:text-violet-400'
+                    }`}
+                    style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
+                  >
+                    {item.label}
+                    {location.pathname === item.path && (
+                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-violet-400 to-pink-400 rounded-full"></div>
+                    )}
+                  </Link>
+                )
               ))}
             </div>
           </div>
@@ -115,33 +142,54 @@ const Navigation = () => {
           <div className="bg-slate-900/95 backdrop-blur-md border-t border-slate-700/50 animate-slide-down">
             <div className="px-4 py-6 space-y-2">
               {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`flex items-center space-x-3 w-full px-4 py-3 text-left transition-all duration-300 rounded-xl touch-manipulation ${
-                    activeSection === item.id
-                      ? 'text-violet-400 bg-violet-500/10 border-l-4 border-violet-400'
-                      : 'text-slate-300 hover:text-violet-400 hover:bg-slate-800/50'
-                  }`}
-                >
-                  <item.icon className="h-5 w-5 flex-shrink-0" />
-                  <span className="font-medium text-base">{item.label}</span>
-                  {activeSection === item.id && (
-                    <div className="ml-auto w-2 h-2 bg-violet-400 rounded-full animate-pulse"></div>
-                  )}
-                </button>
+                item.path === '/' ? (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id, item.path)}
+                    className={`flex items-center space-x-3 w-full px-4 py-3 text-left transition-all duration-300 rounded-xl touch-manipulation ${
+                      activeSection === item.id && location.pathname === '/'
+                        ? 'text-violet-400 bg-violet-500/10 border-l-4 border-violet-400'
+                        : 'text-slate-300 hover:text-violet-400 hover:bg-slate-800/50'
+                    }`}
+                    style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
+                  >
+                    <item.icon className="h-5 w-5 flex-shrink-0" />
+                    <span className="font-medium text-base">{item.label}</span>
+                    {activeSection === item.id && location.pathname === '/' && (
+                      <div className="ml-auto w-2 h-2 bg-violet-400 rounded-full animate-pulse"></div>
+                    )}
+                  </button>
+                ) : (
+                  <Link
+                    key={item.id}
+                    to={item.path}
+                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center space-x-3 w-full px-4 py-3 text-left transition-all duration-300 rounded-xl touch-manipulation ${
+                      location.pathname === item.path
+                        ? 'text-violet-400 bg-violet-500/10 border-l-4 border-violet-400'
+                        : 'text-slate-300 hover:text-violet-400 hover:bg-slate-800/50'
+                    }`}
+                    style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
+                  >
+                    <item.icon className="h-5 w-5 flex-shrink-0" />
+                    <span className="font-medium text-base">{item.label}</span>
+                    {location.pathname === item.path && (
+                      <div className="ml-auto w-2 h-2 bg-violet-400 rounded-full animate-pulse"></div>
+                    )}
+                  </Link>
+                )
               ))}
             </div>
             
             {/* Mobile menu footer with resume actions */}
-            <div className="px-4 py-4 border-t border-slate-700/50">
+            <div className="px-4 py-4 border-t border-slate-700/50" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
               <div className="text-center mb-3">
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-slate-400 font-medium">
                   Available for opportunities
                 </p>
                 <div className="flex justify-center space-x-2 mt-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-slate-500">Open to work</span>
+                  <span className="text-xs text-slate-500 font-normal">Open to work</span>
                 </div>
               </div>
               <div className="flex justify-center">
@@ -153,6 +201,8 @@ const Navigation = () => {
       )}
       
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
         @keyframes slide-down {
           from {
             opacity: 0;

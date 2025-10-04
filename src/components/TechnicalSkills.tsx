@@ -134,6 +134,8 @@ const TechnicalSkills = () => {
 
   return (
     <section id="skills" className="py-12 sm:py-16 md:py-20 relative overflow-hidden bg-black transition-all duration-700 animate-fade-in-up">
+  {/* 3D Spline Object - Left Side Accent removed */}
+      
       {/* Interactive background elements */}
       {!isMobile && (
         <FloatingParticles 
