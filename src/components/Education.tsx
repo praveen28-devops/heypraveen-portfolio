@@ -35,7 +35,7 @@ const Education = () => {
       grade: "Percentage: 81%",
       highlights: [
         "Active participant in Science Exhibitions",
-        "Led school boy technology",
+        "Led school technology club",
       ],
     },
   ];
