@@ -29,13 +29,13 @@ const Education = () => {
     {
       degree: "Higher Secondary Certificate",
       field: "Science",
-      institution: "Sri Vidya Mandir Matriculation Higher Secondary Schoolll",
+      institution: "Sri Vidya Mandir Matriculation Higher Secondary School",
       location: "Namakkal, Tamil Nadu",
       period: "2022 - 2023",
       grade: "Percentage: 81%",
       highlights: [
         "Active participant in Science Exhibitions",
-        "Led school technology club",
+        "Led school boy technology",
       ],
     },
   ];
