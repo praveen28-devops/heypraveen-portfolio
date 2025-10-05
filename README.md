@@ -3,7 +3,7 @@
 <div align="center">
 
 [![Portfolio Website](https://img.shields.io/badge/Portfolio-heypraveen.me-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://heypraveen.me)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Praveen%20A-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/praveen-a)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Praveen%20A-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/praveen-a-devops)
 [![Email](https://img.shields.io/badge/Email-praveen.dev.cloud%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:praveen.dev.cloud@gmail.com)
 
 **B.Tech Information Technology Graduate | DevOps Enthusiast | AWS Certified**  
