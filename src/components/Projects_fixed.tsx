@@ -151,7 +151,7 @@ const Projects = () => {
       icon: Monitor,
       technologies: ["Lambda", "API Gateway", "Terraform", "GitHub Actions"],
       highlights: [
-        "Automated deployments via GitHub Actions CI/CD pipeline",
+        "Automated completed via GitHub Actions CI/CD pipeline",
         "Achieved secure, scalable API delivery with private VPC endpoints and Secrets Manager",
       ],
       metrics: {
