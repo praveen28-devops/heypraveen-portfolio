@@ -65,6 +65,36 @@ dist
 
 # dotenv environment variables file
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local package manager lock files (using bun.lockb)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # dataconnect generated files
 .dataconnect
+
+# IDE
+.vscode/settings.json
+.idea/

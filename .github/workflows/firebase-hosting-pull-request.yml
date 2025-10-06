@@ -26,8 +26,8 @@ jobs:
 
       # Lint & Prettier
       - run: |
-          npx eslint "src/**/*.{ts,tsx,js,jsx}" --max-warnings=0
-          npx prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,scss,md}"
+          npx eslint "components/**/*.{ts,tsx,js,jsx}" "app/**/*.{ts,tsx,js,jsx}" --max-warnings=0
+          npx prettier --check "components/**/*.{ts,tsx,js,jsx,json,css,scss,md}" "app/**/*.{ts,tsx,js,jsx,json,css,scss,md}"
 
       # TypeScript check
       - run: npx tsc --noEmit
@@ -36,7 +36,8 @@ jobs:
       - run: npm test
 
       # Build project
-      - run: npm run build
+      - name: Build and Export Next.js
+        run: npm run build
 
       # Deploy to Firebase preview channel
       - uses: FirebaseExtended/action-hosting-deploy@v0

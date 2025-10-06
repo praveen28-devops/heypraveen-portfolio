@@ -28,8 +28,8 @@ jobs:
       # 5️⃣ Auto-fix ESLint & Prettier issues
       - name: ESLint & Prettier Auto-Fix
         run: |
-          npx eslint "src/**/*.{ts,tsx,js,jsx}" --fix || echo "ESLint issues auto-fixed"
-          npx prettier --write "src/**/*.{ts,tsx,js,jsx,json,css,scss,md}"
+          npx eslint "components/**/*.{ts,tsx,js,jsx}" "app/**/*.{ts,tsx,js,jsx}" --fix || echo "ESLint issues auto-fixed"
+          npx prettier --write "components/**/*.{ts,tsx,js,jsx,json,css,scss,md}" "app/**/*.{ts,tsx,js,jsx,json,css,scss,md}"
 
       # 6️⃣ TypeScript check
       - name: TypeScript Check
