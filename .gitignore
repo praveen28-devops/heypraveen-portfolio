@@ -87,8 +87,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Local package manager lock files (using bun.lockb)
-package-lock.json
+# Alternative lock files (keep package-lock.json for CI)
 yarn.lock
 pnpm-lock.yaml
 
