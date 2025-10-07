@@ -205,6 +205,64 @@ The website is deployed and hosted at [heypraveen.me](https://heypraveen.me) wit
 - 📈 Analytics integration
 - 🔧 Automated deployments
 
+### 🐳 Docker Deployment
+
+This portfolio is fully containerized and available on GitHub Container Registry.
+
+#### Quick Start with Docker
+
+```bash
+# Pull the latest image from GitHub Container Registry
+docker pull ghcr.io/praveen28-devops/portfolio:latest
+
+# Run the container
+docker run -d -p 8080:80 --name praveen-portfolio ghcr.io/praveen28-devops/portfolio:latest
+
+# Access at http://localhost:8080
+```
+
+#### Build Locally
+
+```bash
+# Build the Docker image
+docker build -t praveen-portfolio .
+
+# Run the container
+docker run -d -p 8080:80 praveen-portfolio
+
+# Stop the container
+docker stop praveen-portfolio
+
+# Remove the container
+docker rm praveen-portfolio
+```
+
+#### Docker Image Details
+- **Base Image**: Node.js 20 Alpine (builder) + Nginx Alpine (runner)
+- **Image Size**: ~25-30 MB (optimized multi-stage build)
+- **Security**: Runs as non-root user
+- **Features**: Gzip compression, security headers, health checks
+- **Platforms**: linux/amd64, linux/arm64
+
+### 🔄 CI/CD Pipeline
+
+Automated Docker image builds via GitHub Actions:
+
+- **Triggers**: Push to main/master branch, pull requests
+- **Registry**: GitHub Container Registry (GHCR)
+- **Security**: Trivy vulnerability scanning
+- **Caching**: GitHub Actions cache for faster builds
+- **Multi-platform**: Builds for AMD64 and ARM64 architectures
+
+**Workflow File**: `.github/workflows/ci.yml`
+
+Every commit automatically:
+1. ✅ Builds optimized Docker image
+2. ✅ Runs security vulnerability scans
+3. ✅ Pushes to GitHub Container Registry
+4. ✅ Tags with version and commit SHA
+5. ✅ Generates build attestations for supply chain security
+
 ---
 
 ## 📞 Contact & Collaboration
