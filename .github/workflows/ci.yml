@@ -22,6 +22,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
+      attestations: write # <-- ADD THIS LINE
 
     steps:
       # Step 1: Checkout the repository
@@ -110,3 +111,4 @@ jobs:
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
+
