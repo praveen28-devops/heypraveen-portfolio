@@ -1,0 +1,13 @@
+# k8s/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: portfolio-service # This name must match what you use in the minikube command
+spec:
+  selector:
+    app: nextjs-portfolio # This MUST match the label in your deployment.yaml
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
