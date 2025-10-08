@@ -290,7 +290,7 @@ Ready for **immediate joining** and open to exciting opportunities!
 
 **⭐ Star this repo if you found it helpful!**
 
-[![GitHub stars](https://img.shields.io/github/stars/your-username/heypraveen-portfolio?style=social)](https://github.com/your-username/heypraveen-portfolio)
+[![GitHub stars](https://img.shields.io/github/stars/your-username/heypraveen-portfolio?style=social)](https://github.com/praveen28-devops/heypraveen-portfolio)
 
 *Built with ❤️ by Praveen A*
 
