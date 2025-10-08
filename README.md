@@ -15,16 +15,16 @@
 
 ## 🎯 About This Project
 
-This repository contains the source code for my **professional portfolio website** built with modern web technologies. The site showcases my journey as a **Cloud & DevOps Engineer**, featuring comprehensive project portfolios, certification, volunteer work, and technical expertise.
+This repository contains the source code for my **professional portfolio website** built with **Next.js**. The site showcases my journey as a **Cloud & DevOps Engineer**, featuring comprehensive project portfolios, certifications, volunteer work, and technical expertise.
 
 ### ✨ Key Features
 
 - **🎨 Modern UI/UX**: Clean, responsive design with smooth animations
-- **📱 Mobile-First**: Optimized for all device sizes
-- **⚡ High Performance**: Fast loading with optimized assets
-- **🔍 SEO Optimized**: Enhanced search engine visibility
+- **📱 Mobile-First**: Optimized for all device sizes using Next.js App Router
+- **⚡ High Performance**: Fast loading with SSR and SSG capabilities
+- **🔍 SEO Optimized**: Enhanced search engine visibility with Next.js metadata API
 - **♿ Accessible**: WCAG 2.1 compliant design
-- **🌙 Dark Mode Ready**: Elegant theme switching
+- **🌙 Dark Mode Ready**: Elegant theme switching with next-themes
 
 ---
 
@@ -50,9 +50,8 @@ I am a **B.Tech Information Technology Graduate** from K S Rangasamy College of 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React** - Modern component-based architecture
+- **Next.js** - Full-stack React framework with App Router, SSR, and SSG
 - **TypeScript** - Type-safe development
-- **Vite** - Lightning-fast build tool
 - **Tailwind CSS** - Utility-first CSS framework
 - **shadcn-ui** - High-quality component library
 
@@ -154,20 +153,20 @@ npm run dev
 # Build for production
 npm run build
 
-# Preview production build
-npm run preview
+# Start production server
+npm run start
 ```
 
-### 📁 Project Structure
+### 📁 Project Structure (Next.js App Router)
 ```
-├── src/
-│   ├── components/     # Reusable UI components
-│   ├── pages/         # Route components
-│   ├── hooks/         # Custom React hooks
-│   ├── utils/         # Helper functions
-│   └── styles/        # Global styles
+├── app/
+│   ├── (main)/        # Main routes and layouts
+│   ├── api/           # API routes
+│   └── layout.tsx     # Root layout
+├── components/        # Reusable UI components
+├── lib/               # Utility functions
 ├── public/            # Static assets
-└── docs/              # Documentation
+└── styles/            # Global styles
 ```
 
 ---
@@ -175,16 +174,17 @@ npm run preview
 ## 🔧 Development
 
 ### Available Scripts
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
+- `npm run dev` - Start Next.js development server
+- `npm run build` - Build Next.js production bundle
+- `npm run start` - Start Next.js production server
 - `npm run lint` - Run ESLint
 - `npm run type-check` - TypeScript type checking
 
 ### 🎨 Customization
 - **Colors**: Modify `tailwind.config.js` for theme colors
-- **Components**: Update `src/components/` for UI changes
-- **Content**: Edit page components for content updates
+- **Components**: Update `components/` for UI changes
+- **Content**: Edit `app/` pages for content updates
+- **API Routes**: Add endpoints in `app/api/` directory
 
 ---
 
@@ -281,8 +281,8 @@ Ready for **immediate joining** and open to exciting opportunities!
 
 - **shadcn-ui** for beautiful component library
 - **Tailwind CSS** for utility-first styling
-- **React** community for excellent ecosystem
-- **Vite** for blazing-fast development experience
+- **Next.js** community for excellent ecosystem
+- **Vercel** for seamless deployment experience
 
 ---
 
@@ -290,7 +290,7 @@ Ready for **immediate joining** and open to exciting opportunities!
 
 **⭐ Star this repo if you found it helpful!**
 
-[![GitHub stars](https://img.shields.io/github/stars/your-username/heypraveen-portfolio?style=social)](https://github.com/your-username/heypraveen-portfolio)
+[![GitHub stars](https://img.shields.io/github/stars/praveen28-devops/heypraveen-portfolio?style=social)](https://github.com/praveen28-devops/heypraveen-portfolio)
 
 *Built with ❤️ by Praveen A*
 
