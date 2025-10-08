@@ -15,7 +15,7 @@
 
 ## 🎯 About This Project
 
-This repository contains the source code for my **professional portfolio website** built with modern web technologies. The site showcases my journey as a **Cloud & DevOps Engineer**, featuring comprehensive project portfolios, certifications, volunteer work, and technical expertise.
+This repository contains the source code for my **professional portfolio website** built with modern web technologies. The site showcases my journey as a **Cloud & DevOps Engineer**, featuring comprehensive project portfolios, certification, volunteer work, and technical expertise.
 
 ### ✨ Key Features
 
