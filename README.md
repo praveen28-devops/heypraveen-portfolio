@@ -50,9 +50,7 @@ I am a B.Tech Information Technology Student from K S Rangasamy College of Techn
 🛠️ Tech Stack
 Framework & Frontend
 
-    Next.js - The React framework for production.
-
-    React - Modern component-based architecture.
+    Next.js - Full-stack React framework with App Router, SSR, and SSG capabilities.
 
     TypeScript - Type-safe development.
 
