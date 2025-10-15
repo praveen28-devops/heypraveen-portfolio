@@ -44,12 +44,10 @@ const Education = () => {
     {
       title: "Oracle Cloud Infrastructure 2025 Certified DevOps Professional",
       issuer: "Oracle",
-      credentialUrl: "https://catalog-education.oracle.com/ords/certview/sharebadge?id=D815F4701C1395B56EBA2991A6D1C6DB4D124E0E1D7C30F9CDF2B4328E3878EB", // Update with actual credential URL when available
+      credentialUrl: "https://catalog-education.oracle.com/ords/certview/sharebadge?id=D815F4701C1395B56EBA2991A6D1C6DB4D124E0E1D7C30F9CDF2B4328E3878EB",
       date: "October 13, 2025",
       level: "Professional",
       color: "from-red-500 to-orange-500",
-      certificateImage: "/oracle-devops-cert-2025.png", // Certificate image
-      featured: true, // Mark as featured certificate
     },
     {
       title:
@@ -194,69 +192,59 @@ const Education = () => {
         </div>
 
         {/* Certifications Section */}
-        <div>
+        <div className="w-full">
           <h3 className="text-xl sm:text-2xl font-bold text-center mb-6 sm:mb-8 text-white">
             Professional Certifications
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {/* Certification Grid with optimal responsive layout */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 place-items-center max-w-6xl mx-auto">
             {certifications.map((cert) => (
               <a
                 key={cert.title + cert.issuer}
                 href={cert.credentialUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative group cursor-pointer"
+                className="relative group cursor-pointer w-full max-w-sm mx-auto"
               >
                 <div
-                  className={`bg-slate-800/50 backdrop-blur-lg border ${
-                    cert.featured 
-                      ? 'border-gradient-to-r border-red-500/50 ring-2 ring-red-500/20' 
-                      : 'border-slate-700/50'
-                  } rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-5 lg:p-6 h-full transform hover:scale-105 transition-all duration-300 ${
-                    cert.featured ? 'shadow-lg shadow-red-500/10' : ''
-                  }`}
+                  className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-6 h-full min-h-[280px] flex flex-col transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10"
                 >
-                  {/* Featured badge for new certificate */}
-                  {cert.featured && (
-                    <div className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
-                      NEW
-                    </div>
-                  )}
+
                   
-                  {/* Certificate preview image if available */}
-                  {cert.certificateImage && (
-                    <div className="mb-4 overflow-hidden rounded-lg">
-                      <img 
-                        src={cert.certificateImage} 
-                        alt={`${cert.title} Certificate`}
-                        className="w-full h-24 sm:h-32 object-cover hover:scale-110 transition-transform duration-300"
-                      />
+                  {/* Certificate Icon */}
+                  <div className="flex items-start justify-between mb-3">
+                    <div
+                      className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${cert.color} rounded-xl flex items-center justify-center shadow-lg`}
+                    >
+                      <Award className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
                     </div>
-                  )}
-                  
-                  <div
-                    className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br ${cert.color} rounded-lg sm:rounded-xl md:rounded-2xl flex items-center justify-center mb-2 sm:mb-3 md:mb-4`}
-                  >
-                    <Award className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" />
+                    <div className="text-right">
+                      <ExternalLink className="h-4 w-4 text-cyan-400 opacity-70 group-hover:opacity-100 transition-opacity" />
+                    </div>
                   </div>
-                  <h4 className={`text-sm sm:text-base md:text-lg font-bold mb-1 sm:mb-2 line-clamp-2 leading-tight ${
-                    cert.featured ? 'text-gradient bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent' : 'text-white'
-                  }`}>
-                    {cert.title}
-                  </h4>
-                  <p className="text-cyan-400 font-semibold mb-1 text-xs sm:text-sm">
-                    {cert.issuer}
-                  </p>
-                  <p className="text-xs sm:text-sm text-slate-400 mb-2 sm:mb-3">
-                    {cert.date}
-                  </p>
-                  <div
-                    className={`inline-block px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r ${cert.color} text-white text-xs font-medium rounded-full`}
-                  >
-                    {cert.level}
-                  </div>
-                  <div className="absolute top-2 sm:top-3 right-2 sm:right-3">
-                    <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 text-cyan-400" />
+
+                  {/* Content Area */}
+                  <div className="flex-1 flex flex-col">
+                    <h4 className="text-sm sm:text-base font-bold mb-2 line-clamp-2 leading-tight text-white">
+                      {cert.title}
+                    </h4>
+                    
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-cyan-400 font-semibold text-sm">
+                        {cert.issuer}
+                      </p>
+                      <div
+                        className={`px-2 py-1 bg-gradient-to-r ${cert.color} text-white text-xs font-medium rounded-full`}
+                      >
+                        {cert.level}
+                      </div>
+                    </div>
+                    
+                    <div className="mt-auto">
+                      <p className="text-xs text-slate-400">
+                        📅 {cert.date}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </a>
