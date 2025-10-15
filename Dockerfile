@@ -1,31 +1,56 @@
-    # Dockerfile
+# Dockerfile for Next.js Portfolio - Multi-stage build for optimal size and security
 
-    # ---- Stage 1: Build the static assets ----
-        FROM node:20-alpine AS builder
-        WORKDIR /app
-    
-        # Copy package files and install dependencies
-        COPY package*.json ./
-        RUN npm ci
-    
-        # Copy the rest of the application source code
-        COPY . .
-    
-        # Build the application for static export
-        RUN npm run build
-    
-        # ---- Stage 2: Serve the static assets with Nginx ----
-        FROM nginx:1.27-alpine AS runner
-    
-        # Copy the static files from the build stage to the Nginx web root
-        COPY --from=builder /app/out /usr/share/nginx/html
-    
-        # Optional: Add a custom Nginx config for client-side routing
-        COPY nginx.conf /etc/nginx/conf.d/default.conf
-    
-        EXPOSE 80
-    
-        # Command to start Nginx
-        CMD ["nginx", "-g", "daemon off;"]
+# Stage 1: Dependencies
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY bun.lockb* ./
+
+# Install dependencies
+RUN npm ci --only=production --legacy-peer-deps
+
+# Stage 2: Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# Copy dependencies from deps stage
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Stage 3: Production Runtime
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Create non-root user for security
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copy public assets
+COPY --from=builder /app/public ./public
+
+# Copy Next.js build output
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Switch to non-root user
+USER nextjs
+
+# Expose port
+EXPOSE 3000
+
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+# Start the server
+CMD ["node", "server.js"]
         
     

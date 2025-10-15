@@ -1,0 +1,48 @@
+name: Firebase Hosting PR Preview
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  preview-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repo
+      - uses: actions/checkout@v4
+
+      # Setup Node.js
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Install dependencies
+      - run: npm ci
+
+      # Normalize line endings
+      - run: git add . && git checkout -- .
+
+      # Lint & Prettier
+      - run: |
+          npx eslint "components/**/*.{ts,tsx,js,jsx}" "app/**/*.{ts,tsx,js,jsx}" --max-warnings=0
+          npx prettier --check "components/**/*.{ts,tsx,js,jsx,json,css,scss,md}" "app/**/*.{ts,tsx,js,jsx,json,css,scss,md}"
+
+      # TypeScript check
+      - run: npx tsc --noEmit
+
+      # Unit tests
+      - run: npm test
+
+      # Build project
+      - name: Build and Export Next.js
+        run: npm run build
+
+      # Deploy to Firebase preview channel
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_9B7FB }}
+          channelId: pr-${{ github.event.pull_request.number }}
+          projectId: portfolio-9b7fb

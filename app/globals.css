@@ -20,6 +20,13 @@
   animation: slide-down 0.2s ease-out;
 }
 
+/* Certificate Styling */
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Premium 3D Resume Design System */
 
 @layer base {
