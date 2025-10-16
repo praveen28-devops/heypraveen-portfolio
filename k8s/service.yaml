@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: portfolio-service
+spec:
+  selector:
+    app: nextjs-portfolio
+  type: NodePort
+  ports:
+    - protocol: TCP
+      # The port on the service can remain 3000 for consistency if you like
+      port: 3000
+      # The targetPort MUST match the containerPort, which is now 80
+      targetPort: 80
