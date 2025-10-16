@@ -1,15 +1,12 @@
-name: Dev Branch - Security & Quality Checks
+name: Pull Request - Preview & Checks
 
 on:
-  push:
-    branches:
-      - dev
   pull_request:
     branches:
-      - dev
+      - main  # Only PRs to main branch
 
 jobs:
-  security-and-quality-checks:
+  pr-checks-and-preview:
     runs-on: ubuntu-latest
     steps:
       # 1️⃣ Checkout repository
@@ -27,127 +24,63 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # 4️⃣ Security vulnerability scan
-      - name: NPM Security Audit
+      # 4️⃣ Quick security check
+      - name: Security Check
         run: |
           echo "🔍 Running security audit..."
-          npm audit --audit-level=moderate || echo "⚠️ Vulnerabilities found but continuing..."
-          npm audit --json > audit-results.json || true
+          npm audit --audit-level=high || echo "⚠️ Audit warnings"
 
-      # 5️⃣ Check for malicious packages
-      - name: Check Package Integrity
+      # 5️⃣ Lint check
+      - name: ESLint Check
         run: |
-          echo "🛡️ Checking package integrity..."
-          npm ls --production || echo "Checking dependencies..."
+          echo "🔍 Running ESLint..."
+          npx eslint "components/**/*.{ts,tsx,js,jsx}" "app/**/*.{ts,tsx,js,jsx}" --max-warnings=0
 
-      # 6️⃣ Dependency vulnerability check with Snyk (Optional - Disabled)
-      # Uncomment and add SNYK_TOKEN secret to enable
-      # - name: Snyk Security Scan
-      #   continue-on-error: true
-      #   run: |
-      #     npx snyk test --severity-threshold=high || echo "⚠️ Snyk scan completed with warnings"
-      #   env:
-      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-      # 7️⃣ ESLint - Code quality check (optional)
-      # Uncomment when .eslintrc.json is configured
-      # - name: ESLint Check
-      #   continue-on-error: true
-      #   run: |
-      #     echo "🔍 Running ESLint..."
-      #     npm run lint || echo "⚠️ ESLint issues found"
-
-      # 8️⃣ Prettier - Code formatting check
+      # 6️⃣ Prettier check
       - name: Prettier Check
-        continue-on-error: true
         run: |
           echo "💅 Running Prettier..."
-          npx prettier --check "components/**/*.{ts,tsx,js,jsx,json,css,scss,md}" "app/**/*.{ts,tsx,js,jsx,json,css,scss,md}" || echo "⚠️ Prettier issues found but continuing"
+          npx prettier --check "components/**/*.{ts,tsx,js,jsx,json,css,scss,md}" "app/**/*.{ts,tsx,js,jsx,json,css,scss,md}"
 
-      # 9️⃣ TypeScript type checking
+      # 7️⃣ TypeScript check
       - name: TypeScript Check
-        continue-on-error: true
         run: |
           echo "📘 Running TypeScript check..."
-          npx tsc --noEmit || echo "⚠️ TypeScript warnings found but continuing"
+          npx tsc --noEmit
 
-      # 🔟 Run unit tests
+      # 8️⃣ Run tests
       - name: Run Tests
-        continue-on-error: true
         run: |
           echo "🧪 Running tests..."
-          npm test || echo "⚠️ Tests not configured or failed"
+          npm test
 
-      # 1️⃣1️⃣ Build verification
+      # 9️⃣ Build project
       - name: Build Project
         run: |
           echo "🏗️ Building project..."
-          npm run build || {
-            echo "❌ Build failed"
-            exit 1
-          }
+          npm run build
 
-      # 1️⃣2️⃣ Check for sensitive data leaks
-      - name: Scan for Secrets
-        run: |
-          echo "🔐 Scanning for exposed secrets..."
-          if grep -r "AKIA" . --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=.git --exclude-dir=.next --exclude=*.lockb 2>/dev/null | grep -v ".gitignore"; then echo "⚠️ Possible AWS key found"; exit 1; fi
-          if grep -r "sk-" . --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=.git --exclude-dir=.next --exclude=*.lockb 2>/dev/null | grep -v "package-lock" | grep -v ".gitignore" | grep -v "gruntjs.com"; then echo "⚠️ Possible API key found"; exit 1; fi
-          if grep -r "AIza" . --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=.git --exclude-dir=.next --exclude=*.lockb 2>/dev/null | grep -v ".gitignore"; then echo "⚠️ Possible Google API key found"; exit 1; fi
-          echo "✅ No obvious secrets detected"
+      # 🔟 Deploy to Firebase preview channel (NOT production)
+      - name: Deploy Preview
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_9B7FB }}
+          projectId: portfolio-9b7fb
+          expires: 7d
+        id: firebase-preview
 
-      # 1️⃣3️⃣ Generate security report
-      - name: Security Summary
-        if: always()
-        run: |
-          echo "## 🛡️ Security & Quality Check Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Dependency audit completed" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Code quality checks passed" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Type checking passed" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Tests passed" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Build successful" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Secret scan completed" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### ✨ Ready to merge to main branch!" >> $GITHUB_STEP_SUMMARY
-          echo "All checks passed. You can now merge this to main branch for production deployment." >> $GITHUB_STEP_SUMMARY
-
-      # 1️⃣4️⃣ Upload artifacts for review
-      - name: Upload Build Artifacts
+      # 1️⃣1️⃣ Comment preview URL on PR
+      - name: Preview Summary
         if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-output
-          path: out/
-          retention-days: 5
-
-  # Auto-merge to main if all checks pass
-  auto-merge-to-main:
-    needs: security-and-quality-checks
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure Git
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Merge dev to main
-        run: |
-          echo "🔄 All checks passed! Auto-merging dev → main..."
-          git fetch origin main
-          git checkout main
-          git merge origin/dev --no-ff -m "chore: auto-merge dev to main after successful checks [skip ci]"
-          git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Notify Merge Success
-        run: |
-          echo "## ✅ Auto-Merge Successful" >> $GITHUB_STEP_SUMMARY
-          echo "Dev branch has been merged to main and production deployment is starting!" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎉 Preview Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Preview Details:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ All checks passed" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔍 Preview deployed to temporary channel" >> $GITHUB_STEP_SUMMARY
+          echo "- ⏰ Preview expires in 7 days" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ⚠️ Note:" >> $GITHUB_STEP_SUMMARY
+          echo "This is a PREVIEW deployment only." >> $GITHUB_STEP_SUMMARY
+          echo "Production deployment happens ONLY when merged to main branch." >> $GITHUB_STEP_SUMMARY

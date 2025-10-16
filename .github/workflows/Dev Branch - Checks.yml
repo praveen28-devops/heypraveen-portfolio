@@ -119,3 +119,35 @@ jobs:
           name: build-output
           path: out/
           retention-days: 5
+
+  # Auto-merge to main if all checks pass
+  auto-merge-to-main:
+    needs: security-and-quality-checks
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge dev to main
+        run: |
+          echo "🔄 All checks passed! Auto-merging dev → main..."
+          git fetch origin main
+          git checkout main
+          git merge origin/dev --no-ff -m "chore: auto-merge dev to main after successful checks [skip ci]"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify Merge Success
+        run: |
+          echo "## ✅ Auto-Merge Successful" >> $GITHUB_STEP_SUMMARY
+          echo "Dev branch has been merged to main and production deployment is starting!" >> $GITHUB_STEP_SUMMARY
