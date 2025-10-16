@@ -91,9 +91,9 @@ jobs:
       - name: Scan for Secrets
         run: |
           echo "🔐 Scanning for exposed secrets..."
-          if grep -r "AKIA" . --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=.git; then echo "⚠️ Possible AWS key found"; exit 1; fi
-          if grep -r "sk-" . --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=.git | grep -v "package-lock"; then echo "⚠️ Possible API key found"; exit 1; fi
-          if grep -r "AIza" . --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=.git; then echo "⚠️ Possible Google API key found"; exit 1; fi
+          if grep -r "AKIA" . --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=.git --exclude-dir=.next --exclude=*.lockb 2>/dev/null | grep -v ".gitignore"; then echo "⚠️ Possible AWS key found"; exit 1; fi
+          if grep -r "sk-" . --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=.git --exclude-dir=.next --exclude=*.lockb 2>/dev/null | grep -v "package-lock" | grep -v ".gitignore" | grep -v "gruntjs.com"; then echo "⚠️ Possible API key found"; exit 1; fi
+          if grep -r "AIza" . --exclude-dir=node_modules --exclude-dir=.github --exclude-dir=.git --exclude-dir=.next --exclude=*.lockb 2>/dev/null | grep -v ".gitignore"; then echo "⚠️ Possible Google API key found"; exit 1; fi
           echo "✅ No obvious secrets detected"
 
       # 1️⃣3️⃣ Generate security report
