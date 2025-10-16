@@ -52,6 +52,16 @@ const Education = () => {
       color: "from-orange-500 to-red-500",
     },
     {
+      title:
+        "Oracle Cloud Infrastructure 2025 Certified DevOps Professional",
+      issuer: "Oracle",
+      credentialUrl:
+        "https://catalog-education.oracle.com/ords/certview/sharebadge?id=D815F4701C1395B56EBA2991A6D1C6DB4D124E0E1D7C30F9CDF2B4328E3878EB",
+      date: "2025",
+      level: "Professional",
+      color: "from-red-500 to-orange-600",
+    },
+    {
       title: "Terraform",
       issuer: "Udemy",
       date: "Aug 2025",
@@ -87,15 +97,6 @@ const Education = () => {
         "https://www.credential.net/google-cloud-professional-architect",
       level: "Professional",
       color: "from-green-500 to-blue-500",
-    },
-
-    {
-      title: "Docker Certified Associate",
-      issuer: "Docker Inc.",
-      date: "On Progress",
-      credentialUrl: "https://www.credly.com/badges/docker-certified-associate",
-      level: "Associate",
-      color: "from-blue-400 to-blue-600",
     },
   ];
 
