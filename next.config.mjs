@@ -1,12 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  trailingSlash: true,
-  skipTrailingSlashRedirect: true,
-  distDir: 'out',
+  output: 'export',  // ⚠️ CRITICAL: This enables static HTML export
   images: {
-    unoptimized: true
+    unoptimized: true,  // Required for static export
   },
+  trailingSlash: true,
   transpilePackages: ['three', '@react-three/fiber'],
   webpack: (config) => {
     config.module.rules.push({
@@ -17,4 +15,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
