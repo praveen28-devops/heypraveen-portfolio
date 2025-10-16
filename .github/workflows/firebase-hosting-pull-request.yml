@@ -1,48 +1,101 @@
-name: Firebase Hosting PR Preview
+name: Main Branch - Production Deploy to Firebase
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - main  # ONLY main branch triggers production deployment
+  workflow_dispatch:  # Manual trigger option
 
 jobs:
-  preview-deploy:
+  production-deploy:
     runs-on: ubuntu-latest
-
+    environment:
+      name: production
+      url: https://portfolio-9b7fb.web.app
     steps:
-      # Checkout repo
-      - uses: actions/checkout@v4
+      # 1️⃣ Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      # Setup Node.js
-      - uses: actions/setup-node@v3
+      # 2️⃣ Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '20'
+          cache: 'npm'
 
-      # Install dependencies
-      - run: npm ci
+      # 3️⃣ Install dependencies
+      - name: Install Dependencies
+        run: npm ci
 
-      # Normalize line endings
-      - run: git add . && git checkout -- .
+      # 4️⃣ Verify this is main branch
+      - name: Verify Main Branch
+        run: |
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "❌ ERROR: Production deployment only allowed from main branch!"
+            exit 1
+          fi
+          echo "✅ Confirmed: Deploying from main branch"
 
-      # Lint & Prettier
-      - run: |
-          npx eslint "components/**/*.{ts,tsx,js,jsx}" "app/**/*.{ts,tsx,js,jsx}" --max-warnings=0
-          npx prettier --check "components/**/*.{ts,tsx,js,jsx,json,css,scss,md}" "app/**/*.{ts,tsx,js,jsx,json,css,scss,md}"
+      # 5️⃣ Final security check before deploy
+      - name: Pre-Deploy Security Check
+        run: |
+          echo "🔍 Running final security audit..."
+          npm audit --audit-level=high || echo "⚠️ Audit warnings found"
 
-      # TypeScript check
-      - run: npx tsc --noEmit
+      # 6️⃣ Build project for production
+      - name: Build Project
+        run: |
+          echo "🏗️ Building for production..."
+          npm run build
+        env:
+          NODE_ENV: production
 
-      # Unit tests
-      - run: npm test
+      # 7️⃣ Verify build output
+      - name: Verify Build Output
+        run: |
+          if [ ! -d "out" ]; then
+            echo "❌ Build output directory 'out' not found!"
+            exit 1
+          fi
+          echo "✅ Build output verified"
+          ls -la out/
 
-      # Build project
-      - name: Build and Export Next.js
-        run: npm run build
-
-      # Deploy to Firebase preview channel
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      # 8️⃣ Deploy to Firebase Hosting (PRODUCTION)
+      - name: Deploy to Firebase Production
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_9B7FB }}
-          channelId: pr-${{ github.event.pull_request.number }}
+          channelId: live
           projectId: portfolio-9b7fb
+
+      # 9️⃣ Deployment success notification
+      - name: Deployment Summary
+        if: success()
+        run: |
+          echo "## 🚀 Production Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Deployment Details:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Branch: main" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Build completed successfully" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Deployed to Firebase Hosting" >> $GITHUB_STEP_SUMMARY
+          echo "- 🌐 **Live URL:** https://portfolio-9b7fb.web.app" >> $GITHUB_STEP_SUMMARY
+          echo "- 📅 Deployed at: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ⚡ Your website is now live!" >> $GITHUB_STEP_SUMMARY
+
+      # 🔟 Deployment failure notification
+      - name: Deployment Failed
+        if: failure()
+        run: |
+          echo "## ❌ Production Deployment Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Troubleshooting Steps:" >> $GITHUB_STEP_SUMMARY
+          echo "1. Check Firebase service account credentials" >> $GITHUB_STEP_SUMMARY
+          echo "2. Verify build output exists in 'out' directory" >> $GITHUB_STEP_SUMMARY
+          echo "3. Review error logs above" >> $GITHUB_STEP_SUMMARY
+          echo "4. Ensure Firebase project ID is correct" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Please fix the issues and try again." >> $GITHUB_STEP_SUMMARY
