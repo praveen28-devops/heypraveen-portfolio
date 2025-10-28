@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, type ComponentType, type SVGProps } from "react";
+import Image from "next/image";
 import {
   MapPin,
   Mail,
@@ -110,11 +111,13 @@ const Hero = () => {
             <div className="relative inline-block mb-2 sm:mb-3 md:mb-4 lg:mb-6">
               <div className="w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] md:w-[200px] md:h-[200px] lg:w-[280px] lg:h-[280px] xl:w-[320px] xl:h-[320px] mx-auto rounded-full">
                 <div className="w-full h-full rounded-full overflow-hidden relative image-overlay">
-                  <img
+                  <Image
                     src="/profile-photo.png"
                     alt="Praveen A - Cloud & DevOps Engineer"
                     className="w-full h-full object-cover"
-                    loading="eager"
+                    width={320}
+                    height={320}
+                    priority
                   />
                 </div>
               </div>
