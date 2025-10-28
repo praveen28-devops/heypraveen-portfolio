@@ -128,7 +128,7 @@ const Education = () => {
                 key={edu.degree + edu.institution}
                 className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-xl"
               >
-                <div className="flex flex-col lg:flex-row lg:items-start lg:space-x-6 sm:lg:space-x-8">
+                <div className="flex flex-col lg:flex-row lg:items-start lg:space-x-8">
                   <div className="flex-shrink-0 mb-3 sm:mb-4 lg:mb-0">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
                       <GraduationCap className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-white" />
