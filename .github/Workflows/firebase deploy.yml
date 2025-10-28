@@ -1,0 +1,107 @@
+name: Deploy to Firebase
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+  checks: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout code
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # Determine deployment target
+      - name: Set Deployment Target
+        id: target
+        run: |
+          BRANCH=${GITHUB_REF#refs/heads/}
+          
+          if [[ "$BRANCH" == "main" ]]; then
+            echo "env=production" >> $GITHUB_OUTPUT
+            echo "channel=live" >> $GITHUB_OUTPUT
+            echo "url=https://portfolio-9b7fb.web.app" >> $GITHUB_OUTPUT
+          elif [[ "$BRANCH" == "develop" ]]; then
+            echo "env=preview" >> $GITHUB_OUTPUT
+            echo "channel=develop" >> $GITHUB_OUTPUT
+            echo "url=https://portfolio-9b7fb--develop.web.app" >> $GITHUB_OUTPUT
+          else
+            SAFE_BRANCH=$(echo "$BRANCH" | sed 's/[^a-zA-Z0-9-]/-/g' | cut -c1-20)
+            echo "env=preview" >> $GITHUB_OUTPUT
+            echo "channel=pr-$SAFE_BRANCH" >> $GITHUB_OUTPUT
+            echo "url=https://portfolio-9b7fb--pr-$SAFE_BRANCH.web.app" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "Branch: $BRANCH → $(cat $GITHUB_OUTPUT | grep env | cut -d= -f2)"
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      # Security check (only for production)
+      - name: Security Check
+        if: steps.target.outputs.env == 'production'
+        run: |
+          echo "🔒 Running security audit..."
+          npm audit --audit-level=high --production || {
+            echo "⚠️ Security vulnerabilities found"
+            npm audit --production
+            exit 1
+          }
+
+      # Build
+      - name: Build
+        run: npm run build
+        env:
+          NODE_ENV: ${{ steps.target.outputs.env }}
+
+      # Verify build
+      - name: Verify Build
+        run: |
+          if [ ! -d "out" ] || [ -z "$(ls -A out)" ]; then
+            echo "❌ Build failed or empty"
+            exit 1
+          fi
+          echo "✅ Build verified ($(du -sh out/ | cut -f1))"
+
+      # Deploy to Firebase
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_9B7FB }}
+          channelId: ${{ steps.target.outputs.channel }}
+          projectId: portfolio-9b7fb
+          expires: ${{ steps.target.outputs.env == 'production' && '0d' || '7d' }}
+
+      # Summary
+      - name: Summary
+        if: success()
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## ✅ Deployment Successful
+          
+          **Environment:** ${{ steps.target.outputs.env }}
+          **URL:** ${{ steps.target.outputs.url }}
+          **Branch:** ${GITHUB_REF#refs/heads/}
+          **Commit:** ${GITHUB_SHA:0:7}
+          
+          EOF
